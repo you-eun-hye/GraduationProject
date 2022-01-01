@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timer</title>
+</head>
+<style>
+  .hide{
+    display: none;
+  }
+</style>
+
+<body>
+  <span class="js-timer">00:00:00</span><br>
+  <input class="js-timer__startBtn" type="button" value="시작">
+  <input class="js-timer__stopBtn" type="button" value="정지">
+</body>
+
+<script>
+  const timer = document.querySelector('.js-timer'),
+  stopBtn = document.querySelector('.js-timer__stopBtn'),
+  startBtn = document.querySelector('.js-timer__startBtn');
+  let TIME = 0;
+  let cron;
+
+  // 타이머 실행 버튼
+  function startButton(){
+      updateTimer();
+      stopButton();
+      cron = setInterval(updateTimer, 1000); // 매 초당 updateTimer 반복
+      //timer.classList.add('hide');
+  }
+
+  function stopButton(){
+    clearInterval(cron);
+    //timer.classList.remove('hide');
+  }
+
+  // 타이머 증가 함수
+  function updateTimer(){
+      const hours = Math.floor(TIME/3600);
+      const checkMinutes = Math.floor(TIME/60);
+      const seconds = TIME%60;
+      const minutes = checkMinutes%60;
+
+      timer.innerText = `${hours < 10 ? `0${hours}`:hours}:
+      ${minutes < 10 ? `0${minutes}`:minutes}:
+      ${seconds < 10 ? `0${seconds}`:seconds}`;
+      TIME++;
+  }
+  startBtn.addEventListener('click', startButton);
+  stopBtn.addEventListener('click', stopButton);
+</script>
+</html>
