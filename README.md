@@ -1,2 +1,2 @@
-#Test
-로그인, 타이머 페이지 구현
+#login-lecture
+졸업작품
