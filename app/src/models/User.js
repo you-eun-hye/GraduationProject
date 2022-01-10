@@ -3,7 +3,7 @@
 const UserStorage = require("./UserStorage");
 
 class User {
-    constructor(body){
+    constructor(body){ // 생성자
         this.body = body;
     }
 

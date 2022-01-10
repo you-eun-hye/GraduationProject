@@ -1,12 +1,31 @@
 const mysql = require("mysql");
 
-const db = mysql.createConnection({
-    host: "jaewon-database.c2uoenvwvmn8.ap-northeast-2.rds.amazonaws.com",
-    user: "jaewon",
-    password: "jaewon0625",
-    database: "login_lecture",
-});
+// const db = mysql.createConnection({
+//     host: "localhost",
+//     user: "root",
+//     password: "9598",
+//     database: "graduation",
+// });
 
-db.connect();
+// db.connect();
 
-module.exports = db;
+const db = {
+    host: "localhost",
+    user: "root",
+    password: "9598",
+    database: "graduation",
+}
+
+module.exports = {
+    init: function(){
+        return mysql.createConnection(db);
+    },
+    connect: function(conn){
+        conn.connect(function(err){
+            if(err) console.log('mysql connection error: '+err);
+            else console.log('mysql is connected successfully');
+        });
+    }
+}
+
+// module.exports = db;
