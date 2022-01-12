@@ -1,13 +1,16 @@
 "use strict";
 
 const db = require("../config/db");
+const conn = db.init();
+
+db.connect(conn);
 
 class UserStorage {
 
 static getUserInfo(id){
     return new Promise((resolve, reject) => {
         const query = "SELECT * FROM users WHERE id = ?;";
-        db.query(query, [id], (err, data) => {
+        conn.query(query, [id], (err, data) => {
             if (err) reject(`${err}`);
             else resolve(data[0]);
         });
@@ -17,7 +20,7 @@ static getUserInfo(id){
 static async save(userInfo){
     return new Promise((resolve, reject) => {
         const query = "INSERT INTO users(id, pwd) VALUES(?, ?);";
-        db.query(query, [userInfo.id, userInfo.pwd], (err) => {
+        conn.query(query, [userInfo.id, userInfo.pwd], (err) => {
             if (err) reject(`${err}`);
             else resolve({ success: true});
         });
