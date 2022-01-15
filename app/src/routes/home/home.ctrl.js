@@ -7,7 +7,7 @@ const User = require("../../models/User");
 const output = {
     hello: (req, res) => {
         logger.info('GET / 304 "홈 화면으로 이동');
-        res.render("home/index");
+        res.render("home/todo");
     },
 
     login: (req, res) => {
