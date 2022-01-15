@@ -1,6 +1,4 @@
 "use strict";
-// 서버 실행 파일
-// 다 듣고 35 다시 보기 
 
 const app = require("../../app");
 const logger = require("../src/config/logger");
