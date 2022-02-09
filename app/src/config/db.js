@@ -1,31 +1,12 @@
 const mysql = require("mysql");
 
-const db = {
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PSWORD,
-    database: process.env.DB_DATABASE,
-}
+const db = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "jaewon",
+    password: "jaewon0625",
+    database: "loginlecture"
+});
 
-module.exports = {
-    init: function(){
-        return mysql.createConnection(db);
-    },
-    connect: function(conn){
-        conn.connect(function(err){
-            if(err) console.log('mysql connection error: '+err);
-            else console.log('mysql is connected successfully');
-        });
-    }
-}
+db.connect();
 
-// const db = mysql.createConnection({
-//     host: "localhost",
-//     user: "root",
-//     password: "9598",
-//     database: "graduation",
-// });
-
-// db.connect();
-
-// module.exports = db;
+module.exports = db;

@@ -1,6 +1,5 @@
 "use strict";
 
-// DOM을 활용하여 HTMl에 있는 값에 접근
 const id = document.querySelector("#id"),
      pwd = document.querySelector("#pwd"),
      loginBtn = document.querySelector("#button");
@@ -17,23 +16,21 @@ function login() {
     };
 
     fetch("/login", {
-        method: "POST", // Restful API
+        method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(req),
     })
     .then((res) => res.json())
-    // promise 반환값을 받아서 로그인 성공시 루트페이지로 실패시 경고창
     .then((res) => {
-    if (res.success) {
-        location.href = "/";
-    } else {
-        if (res.err) return alert(res.err);
-        alert(res.msg);
-    }
- })
- .catch((err) => {
-    console.error("로그인 중 에러 발생");
-});
+        if (res.success) {
+            location.href = "/todo";
+        } else {
+            alert(res.msg);
+        }
+    })
+    .catch((err) => {
+        console.error("로그인 중 에러 발생");
+    });
 }

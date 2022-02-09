@@ -2,74 +2,16 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <!-- <link rel="stylesheet" href="../../public/css/home/todo.css">
-    <script type="text/JavaScript" src="../../public/js/home/todo.js"></script> -->
-    <style>
-        .to-do{
-            width: 500px;
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            margin: auto;
-          }
-          h1{
-            text-align: center;
-          }
-          input[type="text"]{
-            width: 385px;
-            height: 30px;
-            outline: 0;
-            border: none;
-            font-size: 1.5em;
-            background: white;
-            margin-right: 10px;
-            padding: 5px;
-          }
-          button{
-            width: 85px;
-            height: 40px;
-            font-size: 1.5em;
-            background-color: #6ea9ad;
-            border-radius: 4px;
-            outline: 0;
-            border: none;
-          }
-          .todolist{
-            background-color: white;
-            margin-top: 20px;
-            padding: 10px 40px 10px 0px;
-          }
-          ul{
-            list-style: none;
-          }
-          li{
-            border-bottom: 1px solid lightgrey;
-            padding-bottom: 15px;
-            padding-top: 15px;
-            font-size: 1.3em;
-          }
-          a{
-            float: right;
-            text-align: right;
-            color: red;
-            font-size: 1.2em;
-            cursor: pointer;
-          }
-          .delete{
-            background-color: #f1e390;
-            text-align: center;
-            padding: 0px 4px 0px 4px;
-            color: white;
-            cursor: pointer;
-          }
-    </style>
+    <link rel="stylesheet" href="/css/home/todo.css">
+    <script src="/js/home/todo.js" defer></script>
 </head>
+
 <body>
     <div class="to-do">
-        <h1>ToDo</h1>
-        <form class="" action="index.html" method="post">
+        <h1>00:00:00</h1>
+        <form class="" action="" method="post">
             <input type="text" placeholder="새로운 할 일" name="todo">
-            <button type="submit"><b>추가</b></button>
+            <button class="todo_plus" type="submit"><b>추가</b></button>
         </form>
         <div class="todolist">
             <ul>
@@ -78,57 +20,4 @@
         </div>
     </div>
 </body>
-
-<script>
-    init();
-
-    function init(){
-            document.querySelector('form').addEventListener('submit', addToDo);
-            document.getElementById('clear').addEventListener('click', clearTodoList);
-            document.querySelector('ul').addEventListener('click', deleteOrCheck);
-    }
-
-    function deleteOrCheck(e){
-        if(e.target.className == 'delete')  
-            deleteToDo(e); // X 버튼을 누르면 목록에서 항목 삭제
-        else {
-            checkToDo(e); // 체크박스를 클릭한 경우 글씨 색을 연하게 바꿔준다.
-        }
-    }
-
-    function deleteToDo(e){ // X 버튼을 누르면 목록에서 항목 삭제
-        let remove = e.target.parentNode;
-        let parentNode = remove.parentNode;
-        parentNode.removeChild(remove);
-    }
-    
-    function checkToDo(e){  // 체크박스를 클릭한 경우 글씨 색을 연하게 바꿔준다.
-        const todo = e.target.nextSibling;
-        if(e.target.checked){
-            todo.style.color = "#dddddd";
-        }else {
-            todo.style.color = "#000000";
-        }
-    }
-
-    function clearTodoList(e){ //목록 전체 삭제하는 경우
-        let ul = document.querySelector('ul').innerHTML = '';
-    }
-
-    function addToDo(e){ //새로운 할 일 추가하는 경우
-        e.preventDefault();
-        let toDoValue = document.querySelector('input');
-        if(toDoValue.value !== '')
-            addTask(toDoValue.value);
-            toDoValue.value = ''; //입력창 비워주기
-    }
-
-    function addTask(value){
-        let ul = document.querySelector('ul');
-        let li = document.createElement('li');
-        li.innerHTML = `<span class="delete">x</span><input type="checkbox"><label>${value}</label>`;
-        ul.appendChild(li);
-        document.querySelector('.todolist').style.display = 'block';
-    }
-</script>
 </html>

@@ -1,7 +1,8 @@
+const db = require("../config/db");
 init();
 
 function init(){
-        document.querySelector('form').addEventListener('submit', addToDo);
+        document.querySelector('form').addEventListener('submit', todo);
         document.getElementById('clear').addEventListener('click', clearTodoList);
         document.querySelector('ul').addEventListener('click', deleteOrCheck);
 }
@@ -14,8 +15,14 @@ function deleteOrCheck(e){
     }
 }
 
+// function start_timer(e){
+//     if(e.target.className == 'js-timer'){
+//         location.replace('../../views/home/timer.ejs');
+//     }
+// }
+
 function deleteToDo(e){ // X 버튼을 누르면 목록에서 항목 삭제
-    let remove = e.target.parentNode;
+    let remove = e.target.parentNode.parentNode;
     let parentNode = remove.parentNode;
     parentNode.removeChild(remove);
 }
@@ -33,18 +40,45 @@ function clearTodoList(e){ //목록 전체 삭제하는 경우
     let ul = document.querySelector('ul').innerHTML = '';
 }
 
-function addToDo(e){ //새로운 할 일 추가하는 경우
-    e.preventDefault();
-    let toDoValue = document.querySelector('input');
-    if(toDoValue.value !== '')
-        addTask(toDoValue.value);
-        toDoValue.value = ''; //입력창 비워주기
+function todo(e){ //새로운 할 일 추가하는 경우
+    const req = {
+        todo: todo.value,
+    };
+
+    fetch("/todo", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(req),
+    })
+    .then((res) => res.json())
+    .then((res) => {
+        if (res.success) {
+            e.preventDefault();
+            let toDoValue = document.querySelector('input');
+            if(toDoValue.value !== '')
+                addTask(toDoValue.value);
+                toDoValue.value = ''; //입력창 비워주기
+        } else {
+            alert(res.msg);
+        }
+    })
+    .catch((err) => {
+        console.error("회원가입 중 에러 발생");
+    });
+
+    // e.preventDefault();
+    // let toDoValue = document.querySelector('input');
+    // if(toDoValue.value !== '')
+    //     addTask(toDoValue.value);
+    //     toDoValue.value = ''; //입력창 비워주기
 }
 
 function addTask(value){
     let ul = document.querySelector('ul');
     let li = document.createElement('li');
-    li.innerHTML = `<span class="delete">x</span><input type="checkbox"><label>${value}</label>`;
+    li.innerHTML = `<input type="checkbox"><label>${value}</label><span class="right"><button class="js-timer">00:00:00</button><span class="delete">x</span></span>`;
     ul.appendChild(li);
     document.querySelector('.todolist').style.display = 'block';
 }
