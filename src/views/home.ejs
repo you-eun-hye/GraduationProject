@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title>홈페이지</title>
+</head>
+
+<body>
+  <h1>오늘의 할일</h1>
+  <table>
+    <% data.forEach(function (value) { %>
+    <tr>
+        <td><%= value.content %></td>
+        <td><a href="/edit/<%= value.id %>">수정</a></td>
+        <td><a href="/delete/<%= value.id %>">삭제</a></td>
+    </tr>
+    <% }); %>
+  </table>
+  <a href="/insert">할일 추가</a>
+</body>
+
+</html>
