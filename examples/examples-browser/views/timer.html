@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="face-api.js"></script>
+  <script src="js/faceDetectionControls.js"></script>
+  <link rel="stylesheet" href="css/timer.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.css">
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+</head>
+
+<body>
+  <div class="page-container">
+    <!-- 웹캠 보여주는 부분 -->
+    <div class="progress" id="loader">
+      <div class="indeterminate"></div>
+    </div>
+    <div style="position: relative" class="margin">
+      <video onloadedmetadata="onPlay(this)" id="inputVideo" autoplay muted playsinline></video>
+      <canvas id="overlay" />
+    </div>
+
+    <div class="center-content">
+      <div id="warning" style="padding-bottom:50px">
+
+      </div>
+
+      <!-- tiny_face_detector_controls -->
+      <span id="tiny_face_detector_controls">
+        <div class="row side-by-side">
+          <div class="row input-field" style="margin-right: 20px;">
+            <select id="inputSize">
+              <option value="" disabled selected>Input Size:</option>
+              <option value="128">128 x 128</option>
+              <option value="160">160 x 160</option>
+              <option value="224">224 x 224</option>
+              <option value="320">320 x 320</option>
+              <option value="416">416 x 416</option>
+              <option value="512">512 x 512</option>
+              <option value="608">608 x 608</option>
+            </select>
+            <label>Input Size</label>
+          </div>
+          <div class="row">
+            <label for="scoreThreshold">Score Threshold:</label>
+            <input disabled value="0.5" id="scoreThreshold" type="text" class="bold">
+          </div>
+          <button
+            class="waves-effect waves-light btn"
+            onclick="onDecreaseScoreThreshold()"
+          >
+            <i class="material-icons left">-</i>
+          </button>
+          <button
+            class="waves-effect waves-light btn"
+            onclick="onIncreaseScoreThreshold()"
+          >
+            <i class="material-icons left">+</i>
+          </button>
+        </div>
+      </span>
+      <!-- tiny_face_detector_controls -->
+
+      <span class="timer">
+        <h2 class="js-timer bold">00:00:00</h2><br>
+        <div style="text-align:center">
+          <input class="js-timer__startBtn timerBtn" type="button" value="시작">
+          <input class="js-timer__stopBtn timerBtn" type="button" value="정지">
+        </div>
+      </span>
+    </div>
+  </body>
+
+  <script>
+    const timer = document.querySelector('.js-timer'),
+    stopBtn = document.querySelector('.js-timer__stopBtn'),
+    startBtn = document.querySelector('.js-timer__startBtn');
+    let TIME = 0;
+    let cron;
+
+
+    // 타이머 함수
+    function updateTimer(){
+      const hours = Math.floor(TIME/3600);
+      const checkMinutes = Math.floor(TIME/60);
+      const seconds = TIME%60;
+      const minutes = checkMinutes%60;
+
+      timer.innerText = `${hours < 10 ? `0${hours}`:hours}:${
+        minutes < 10 ? `0${minutes}`:minutes}:${
+        seconds < 10 ? `0${seconds}`:seconds}`;
+      TIME++;
+    }
+
+    // 타이머 실행 버튼
+    function startButton(){
+        updateTimer();
+        stopButton();
+        cron = setInterval(updateTimer, 1000); // 매 초당 updateTimer 반복
+    }
+
+    function stopButton(){
+      clearInterval(cron);
+    }
+
+    startBtn.addEventListener('click', startButton);
+    stopBtn.addEventListener('click', stopButton);
+
+
+
+    let forwardTimes = []
+
+    // 감지되기까지 시간과 정확도 관련 함수
+    function updateTimeStats(timeInMs) {
+      forwardTimes = [timeInMs].concat(forwardTimes).slice(0, 30) // 문자 slice(잘라서) 합쳐(concat)
+      const avgTimeInMs = forwardTimes.reduce((total, t) => total + t) / forwardTimes.length
+      $('#time').val(`${Math.round(avgTimeInMs)} ms`) // 반올림해서 표현
+      $('#fps').val(`${faceapi.utils.round(1000 / avgTimeInMs)}`)
+    }
+
+
+    // 비디오, 사각형, 시간 등 
+    async function onPlay() {
+      const videoEl = $('#inputVideo').get(0)
+
+      if(videoEl.paused || videoEl.ended || !isFaceDetectionModelLoaded())
+        return setTimeout(() => onPlay()) // 얼굴 나타날 때까지 기다렸다가 다시 실행
+
+
+      const options = getFaceDetectorOptions() // 대충 얼굴가져오는 거
+
+      const ts = Date.now() // 현재까지 경과된 초를 변수에 담음
+
+      const result = await faceapi.detectSingleFace(videoEl, options) // 얼굴가져오는 거 2
+
+      updateTimeStats(Date.now() - ts) // 걸린 시간 최종
+
+
+      // 여기가 얼굴 사각형 관련 코드임
+      if (result) {
+        const canvas = $('#overlay').get(0) // 대충 얼굴 비디오 보여주는 거
+        const dims = faceapi.matchDimensions(canvas, videoEl, true) // 얼굴 사이즈 맞춰 사각형 생성
+        faceapi.draw.drawBox(canvas, faceapi.resizeResults(result, dims))
+      }
+      if(!result){
+        stopButton();
+      }
+
+      setTimeout(() => onPlay()) // 마찬가지로 기다렸다가 다시 실행
+    }
+
+
+    // 사용 기능 바꼈을 때(Tiny_face_detector), 영상 이미지로 쪼개서 가져오는 코드
+    async function run() {
+      // load face detection model
+      await changeFaceDetector(TINY_FACE_DETECTOR)
+      changeInputSize(128)
+
+      // try to access users webcam and stream the images
+      // to the video element
+      const stream = await navigator.mediaDevices.getUserMedia({ video: {} })
+      const videoEl = $('#inputVideo').get(0)
+      videoEl.srcObject = stream
+    }
+
+
+    function updateResults() {} // 넌 뭐야?
+
+
+    // 사각형 보여주고 초기화시키고 다시 사각형 보여주고 하는 함수
+    $(document).ready(function() {
+      initFaceDetectionControls()
+      run()
+    })
+  </script>
+</body>
+</html>
