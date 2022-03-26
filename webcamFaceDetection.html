@@ -152,9 +152,10 @@
         //faceapi.draw.drawBox(canvas, faceapi.resizeResults(result, dims)) // 밖에 기준 사각형 
         
         if (withBoxes) {
-          faceapi.draw.drawDetections(canvas, resizedResult)
+          //faceapi.draw.drawDetections(canvas, resizedResult)
           faceapi.draw.drawBox(canvas, faceapi.resizeResults(result, dims)) 
         } 
+        faceapi.draw.drawDetections(canvas, resizedResult)
       }
       
      // if(!result){
