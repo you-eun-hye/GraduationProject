@@ -1459,7 +1459,7 @@
         function DrawBoxOptions(options) {
             if (options === void 0) { options = {}; }
             var boxColor = options.boxColor, lineWidth = options.lineWidth, label = options.label, drawLabelOptions = options.drawLabelOptions;
-            this.boxColor = boxColor || 'rgba(0, 0, 255, 1)';
+            this.boxColor = boxColor || 'rgba(255, 0, 255, 1)';
             this.lineWidth = lineWidth || 2;
             this.label = label;
             var defaultDrawLabelOptions = {
@@ -1501,9 +1501,19 @@
             var box = det instanceof FaceDetection
                 ? det.box
                 : (isWithFaceDetection(det) ? det.detection.box : new Box(det));
-            var label =  "야호"  
+            var label =  "사용자"  
             //score ?  + round(score) : undefined;
+            var element = document.getElementById('warning')
             new DrawBox(box, { label: label }).draw(canvasArg);
+            if(score < 0.55 ){
+                element.innerHTML = "<h5 class='bold' style='color:red'>고개 들어주세요</h5>";
+            }
+            else if(score > 0.80 ){
+                element.innerHTML = "<h5 class='bold' style='color:red'>???</h5>";
+            }
+            else{
+                element.innerHTML = "";
+            }             
         });
     }
   
@@ -1521,9 +1531,7 @@
         detectionsArray.forEach(function (det) {
             var score = det instanceof FaceDetection
                 ? det.score
-                : (isWithFaceDetection(det) ? det.detection.score : undefined);
-                
-              
+                : (isWithFaceDetection(det) ? det.detection.score : undefined); 
             var box = det instanceof FaceDetection
                 ? det.box
                 : (isWithFaceDetection(det) ? det.detection.box : new Box(det));
@@ -1537,15 +1545,15 @@
             // else if(box.y > _box.y+70){
             //     element.innerHTML = "<h5 class='bold' style='color:red'>졸음을 이겨주세요.</h5>";
             // }
-            if(score < 0.45 ){
-                element.innerHTML = "<h5 class='bold' style='color:red'>고개 들어주세요</h5>";
-            }
-            else if(score > 0.80 ){
-                element.innerHTML = "<h5 class='bold' style='color:red'>???</h5>";
-            }
-            else{
-                element.innerHTML = "";
-            }             
+            // if(score < 0.55 ){
+            //     element.innerHTML = "<h5 class='bold' style='color:red'>고개 들어주세요</h5>";
+            // }
+            // else if(score > 0.80 ){
+            //     element.innerHTML = "<h5 class='bold' style='color:red'>???</h5>";
+            // }
+            // else{
+            //     element.innerHTML = "";
+            // }             
         });
     }
 
@@ -2808,19 +2816,19 @@
             new DrawFaceLandmarks(landmarks).draw(canvasArg);
        });
     }
-    // 추가 부분 (실행 가능한지 여부 ?)
-    function draFaceDetections(canvasArg, faceDetection) {
-        var faceDetectionArray = Array.isArray(faceDetection) ? faceDetection : [faceDetection];
-        faceDetectionArray.forEach(function (f) {
-            var Detection = f instanceof FaceDetection
-               ? f
-               : (isWithFaceDetection(f) ? f.Detection : undefined);
-            if (!Detection) {
-               throw new Error('drawDetections - expected faceDetection to be FaceDetection | //WithFaceDetection<WithFaceDetection<{}>> or array thereof');
-            }
-            new DrawFaceDetection(Detection).draw(canvasArg);
-       });
-    }
+    // // 추가 부분 (실행 가능한지 여부 ?)
+    // function draFaceDetections(canvasArg, faceDetection) {
+    //     var faceDetectionArray = Array.isArray(faceDetection) ? faceDetection : [faceDetection];
+    //     faceDetectionArray.forEach(function (f) {
+    //         var Detection = f instanceof FaceDetection
+    //            ? f
+    //            : (isWithFaceDetection(f) ? f.Detection : undefined);
+    //         if (!Detection) {
+    //            throw new Error('drawDetections - expected faceDetection to be FaceDetection | //WithFaceDetection<WithFaceDetection<{}>> or array thereof');
+    //         }
+    //         new DrawFaceDetection(Detection).draw(canvasArg);
+    //    });
+    // }
   
   
   
