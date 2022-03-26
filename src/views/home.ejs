@@ -15,12 +15,13 @@
     <% data.forEach(function (value) { %>
     <tr>
         <td><%= value.content %></td>
-        <td><a href="/edit/<%= value.id %>">수정</a></td>
-        <td><a href="/delete/<%= value.id %>">삭제</a></td>
+        <td><a href="/edit/<%= value.numb %>">수정</a></td>
+        <td><a href="/delete/<%= value.numb %>">삭제</a></td>
     </tr>
     <% }); %>
   </table>
   <a href="/insert">할일 추가</a>
+  <a href="/logout">로그아웃</a>
 </body>
 
 </html>
