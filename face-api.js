@@ -798,17 +798,14 @@
         return ObjectDetection;
     }());
   
-    //1495 줄 실행 구현 코드
     var FaceDetection = /** @class */ (function (_super) {
         __extends(FaceDetection, _super);
         function FaceDetection(score, relativeBox, imageDims) {
             return _super.call(this, score, score, '', relativeBox, imageDims) || this;
         }
         FaceDetection.prototype.forSize = function (width, height) {
-            var _a = _super.prototype.forSize.call(this, width, height), 
-            score = _a.score, relativeBox = _a.relativeBox, imageDims = _a.imageDims;
+            var _a = _super.prototype.forSize.call(this, width, height), score = _a.score, relativeBox = _a.relativeBox, imageDims = _a.imageDims;
             return new FaceDetection(score, relativeBox, imageDims);
-           
         };
         return FaceDetection;
     }(ObjectDetection));
@@ -1459,7 +1456,7 @@
         function DrawBoxOptions(options) {
             if (options === void 0) { options = {}; }
             var boxColor = options.boxColor, lineWidth = options.lineWidth, label = options.label, drawLabelOptions = options.drawLabelOptions;
-            this.boxColor = boxColor || 'rgba(255, 0, 255, 1)';
+            this.boxColor = boxColor || 'rgba(0, 0, 255, 1)';
             this.lineWidth = lineWidth || 2;
             this.label = label;
             var defaultDrawLabelOptions = {
@@ -1497,14 +1494,13 @@
             var score = det instanceof FaceDetection
                 ? det.score
                 : (isWithFaceDetection(det) ? det.detection.score : undefined);
-                
             var box = det instanceof FaceDetection
                 ? det.box
                 : (isWithFaceDetection(det) ? det.detection.box : new Box(det));
-            var label =  "사용자"  
-            //score ?  + round(score) : undefined;
-            var element = document.getElementById('warning')
+            var label = score ? "야호" + round(score) : undefined;
+            var element = document.getElementById('warning')  // 코드 추가 부분
             new DrawBox(box, { label: label }).draw(canvasArg);
+            // 코드 추가 부분
             if(score < 0.55 ){
                 element.innerHTML = "<h5 class='bold' style='color:red'>고개 들어주세요</h5>";
             }
@@ -1531,29 +1527,24 @@
         detectionsArray.forEach(function (det) {
             var score = det instanceof FaceDetection
                 ? det.score
-                : (isWithFaceDetection(det) ? det.detection.score : undefined); 
+                : (isWithFaceDetection(det) ? det.detection.score : undefined);
             var box = det instanceof FaceDetection
                 ? det.box
                 : (isWithFaceDetection(det) ? det.detection.box : new Box(det));
-            var label = "사용자 " 
-             //score ? + round(score) : undefined;
+            // var label = "사용자 ID"; 
+            var label = score ? + round(score) : undefined; 
             var element = document.getElementById('warning')
             new DrawBox(box, { label: label }).draw(canvasArg);
-            // if(box.x < _box.x || box.x > _box.x+170 || box.y < _box.y){
-            //     element.innerHTML = "<h5 class='bold' style='color:red'>올바른 자세를 잡아주세요.</h5>";
-            // }
-            // else if(box.y > _box.y+70){
-            //     element.innerHTML = "<h5 class='bold' style='color:red'>졸음을 이겨주세요.</h5>";
-            // }
-            // if(score < 0.55 ){
-            //     element.innerHTML = "<h5 class='bold' style='color:red'>고개 들어주세요</h5>";
-            // }
-            // else if(score > 0.80 ){
-            //     element.innerHTML = "<h5 class='bold' style='color:red'>???</h5>";
-            // }
-            // else{
-            //     element.innerHTML = "";
-            // }             
+            if(box.topLeft.x <= _box.x ||
+               box.topRight.x >= _box.x+_box.width ||
+               box.topLeft.y <= _box.y ||
+               box.bottomLeft.y >= _box.y+_box.height
+               ){
+                element.innerHTML = "<h5 class='bold' style='color:red'>올바른 자세를 잡아주세요.</h5>";
+            } 
+            else{
+                element.innerHTML = "";
+            }
         });
     }
 
@@ -2808,27 +2799,14 @@
         var faceLandmarksArray = Array.isArray(faceLandmarks) ? faceLandmarks : [faceLandmarks];
         faceLandmarksArray.forEach(function (f) {
             var landmarks = f instanceof FaceLandmarks
-               ? f
-               : (isWithFaceLandmarks(f) ? f.landmarks : undefined);
+                ? f
+                : (isWithFaceLandmarks(f) ? f.landmarks : undefined);
             if (!landmarks) {
-               throw new Error('drawFaceLandmarks - expected faceExpressions to be FaceLandmarks | //WithFaceLandmarks<WithFaceDetection<{}>> or array thereof');
+                throw new Error('drawFaceLandmarks - expected faceExpressions to be FaceLandmarks | WithFaceLandmarks<WithFaceDetection<{}>> or array thereof');
             }
             new DrawFaceLandmarks(landmarks).draw(canvasArg);
-       });
+        });
     }
-    // // 추가 부분 (실행 가능한지 여부 ?)
-    // function draFaceDetections(canvasArg, faceDetection) {
-    //     var faceDetectionArray = Array.isArray(faceDetection) ? faceDetection : [faceDetection];
-    //     faceDetectionArray.forEach(function (f) {
-    //         var Detection = f instanceof FaceDetection
-    //            ? f
-    //            : (isWithFaceDetection(f) ? f.Detection : undefined);
-    //         if (!Detection) {
-    //            throw new Error('drawDetections - expected faceDetection to be FaceDetection | //WithFaceDetection<WithFaceDetection<{}>> or array thereof');
-    //         }
-    //         new DrawFaceDetection(Detection).draw(canvasArg);
-    //    });
-    // }
   
   
   
