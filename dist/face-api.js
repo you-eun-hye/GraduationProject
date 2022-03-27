@@ -1520,15 +1520,17 @@
             var box = det instanceof FaceDetection
                 ? det.box
                 : (isWithFaceDetection(det) ? det.detection.box : new Box(det));
-            var label = "사용자 ID"; 
+            // var label = "사용자 ID"; 
+            var label = score ? + round(score) : undefined; 
             var element = document.getElementById('warning')
             new DrawBox(box, { label: label }).draw(canvasArg);
-            if(box.x < _box.x || box.x > _box.x+170 || box.y < _box.y){
+            if(box.topLeft.x <= _box.x ||
+               box.topRight.x >= _box.x+_box.width ||
+               box.topLeft.y <= _box.y ||
+               box.bottomLeft.y >= _box.y+_box.height
+               ){
                 element.innerHTML = "<h5 class='bold' style='color:red'>올바른 자세를 잡아주세요.</h5>";
-            }
-            else if(box.y > _box.y+70){
-                element.innerHTML = "<h5 class='bold' style='color:red'>졸음을 이겨주세요.</h5>";
-            }
+            } 
             else{
                 element.innerHTML = "";
             }
