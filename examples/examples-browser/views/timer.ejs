@@ -61,18 +61,21 @@
       </span>
       <!-- tiny_face_detector_controls -->
 
-      <span class="timer">
-        <h2 class="js-timer bold">00:00:00</h2><br>
-        <div style="text-align:center">
-          <input class="js-timer__startBtn timerBtn" type="button" value="시작">
-          <input class="js-timer__stopBtn timerBtn" type="button" value="정지">
-        </div>
-      </span>
+      <form method="post">
+        <span class="js-timer">
+          <h2 class="timer bold" name="timer" id="timer">00:00:00</h2><br>
+          <div style="text-align:center">
+            <input class="js-timer__startBtn timerBtn" type="button" value="Start">
+            <input class="js-timer__stopBtn timerBtn" type="button" value="Stop">
+            <input class="js-timer__endBtn timerBtn" type="submit" value="End">
+          </div>
+        </span>
+      </form>
     </div>
   </body>
 
   <script>
-    const timer = document.querySelector('.js-timer'),
+    const timer = document.querySelector('.timer'),
     stopBtn = document.querySelector('.js-timer__stopBtn'),
     startBtn = document.querySelector('.js-timer__startBtn');
     let TIME = 0;
@@ -171,7 +174,6 @@
     $(document).ready(function() {
       initFaceDetectionControls()
       run()
-      startButton();
     })
   </script>
 </body>

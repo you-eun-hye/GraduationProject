@@ -34,7 +34,7 @@ app.get('/register', function (req, res){
 app.post('/register', function (req, res){
     const body = req.body;
 
-    db.query('insert into users (id, pwd) values (?, ?);', [ body.id, body.pwd ],
+    db.query('insert into users (id, pwd, nickname) values (?, ?, ?);', [ body.id, body.pwd, body.nickname ],
     function (){
         res.redirect('/')
     })
@@ -75,10 +75,26 @@ app.get('/logout', (req,res) => {
     });
 });
 
+// timer
+app.get('/timer', function (req,res){
+    fs.readFile('./views/timer.ejs', 'utf8', function (err, data){
+        res.send(data)
+    })
+});
+
+app.post('/timer', function(req,res){
+    const body = req.body;
+    console.log(body.timer);
+    db.query('update todolist SET td_time=? where td_id=? and id=?;', [body.td_time, req.params.td_id, req.session.name],
+    function (){
+        res.redirect('/todo')
+    })
+});
+
 // todolist
 app.get('/todo', function(req, res){
     fs.readFile('./views/todo.ejs', 'utf8', function (err, data){
-        db.query('select * from todolist where id=?', [req.session.name],
+        db.query('select * from todolist where id=?', [req.session.name, req.params.td_time],
         function (err, results){
             if (err){
                 res.send(err)
@@ -89,41 +105,104 @@ app.get('/todo', function(req, res){
     })
 });
 
-app.get('/delete/:numb', function (req, res){
-    db.query('delete from todolist where numb=? and id=?', [req.params.numb, req.session.name],
+app.get('/td_delete/:td_id', function (req, res){
+    db.query('delete from todolist where td_id=? and id=?', [req.params.td_id, req.session.name],
     function (){
         res.redirect('/todo')
     })
 });
 
-app.get('/todo/insert', function (req, res){
-    fs.readFile('./views/create.ejs', 'utf8', function (err, data){
+app.get('/td_create', function (req, res){
+    fs.readFile('./views/td_create.ejs', 'utf8', function (err, data){
         res.send(data)
     })
 });
 
-app.post('/todo/insert', function (req, res){
+app.post('/td_create', function (req, res){
     const body = req.body;
-    db.query('insert into todolist (id, content) values (?, ?);', [req.session.name, body.content],
+    db.query('insert into todolist (id, td_content, td_time) values (?, ?, "00:00:00");', [req.session.name, body.td_content],
     function (){
         res.redirect('/todo')
     })
 });
 
-app.get('/edit/:numb', function (req, res){
+app.get('/td_edit/:td_id', function (req, res){
     fs.readFile('./views/edit.ejs', 'utf8', function (err, data){
-        db.query('select * from todolist where numb=? and id=?', [req.params.numb, req.session.name],
+        db.query('select * from todolist where td_id=? and id=?', [req.params.td_id, req.session.name],
         function (err, result){
             res.send(ejs.render(data, { data: result[0] }))
         })
     })
 });
 
-app.post('/edit/:numb', function (req, res){
+app.post('/td_edit/:td_id', function (req, res){
     const body = req.body;
-    db.query('update todolist SET content=? where numb=? and id=?', [body.content, req.params.numb, req.session.name],
+    db.query('update todolist SET td_content=? where td_id=? and id=?', [body.td_content, req.params.td_id, req.session.name],
     function (){
         res.redirect('/todo')
+    })
+});
+
+// community
+app.get('/community', function(req, res){
+    fs.readFile('./views/community.ejs', 'utf8', function (err, data){
+        db.query('select * from community', function (err, results){
+            if (err){
+                res.send(err)
+            } else {
+                res.send(ejs.render(data, { data: results }))
+            }
+        })
+    })
+});
+
+app.get('/cm_board', function(req, res){
+    fs.readFile('./views/cm_board.ejs', 'utf8', function (err, data){
+        db.query('select * from community', function (err, results){
+            if (err){
+                res.send(err)
+            } else {
+                res.send(ejs.render(data, { data: results }))
+            }
+        })
+    })
+});
+
+app.get('/cm_create', function (req, res){
+    fs.readFile('./views/cm_create.ejs', 'utf8', function (err, data){
+        res.send(data)
+    })
+});
+
+app.post('/cm_create', function (req, res){
+    const body = req.body;
+    db.query('insert into community (id, cm_title, cm_content) values (?, ?, ?);', [req.session.name, body.cm_title, body.cm_content],
+    function (){
+        res.redirect('/community')
+    })
+});
+
+app.get('/cm_edit/:cm_id', function (req, res){
+    fs.readFile('./views/cm_edit.ejs', 'utf8', function (err, data){
+        db.query('select * from community where cm_id=? and id=?', [req.params.cm_id, req.session.name],
+        function (err, result){
+            res.send(ejs.render(data, { data: result[0] }))
+        })
+    })
+});
+
+app.post('/cm_edit/:cm_id', function (req, res){
+    const body = req.body;
+    db.query('update community SET cm_content=? where cm_id=? and id=?', [body.cm_content, req.params.cm_id, req.session.name],
+    function (){
+        res.redirect('/community')
+    })
+});
+
+app.get('/cm_delete/:cm_id', function (req, res){
+    db.query('delete from community where cm_id=? and id=?', [req.params.cm_id, req.session.name],
+    function (){
+        res.redirect('/community')
     })
 });
 

@@ -178,7 +178,7 @@
         <div class="menu-1">
             <ul>
                 <li>
-                    <a href="#">통계</a>
+                    <a href="./nums">통계</a>
                     <ul class="sec-menu-box">
                         <li>
                             <a href="#">일간</a>
@@ -198,7 +198,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">게시판</a>
+                    <a href="./community">게시판</a>
                 </li>
                 <li>
                   <a href="/logout">로그아웃</a>
@@ -208,17 +208,18 @@
     </div>
 </div>
 
-  <a id="add" href="/todo/insert">할일 추가</a>
+  <a id="add" href="/td_create">할일 추가</a>
   <a id="pose" href="/pose.html">pose</a>
   
   <div style="padding-left: 100px;">
     <table>
       <% data.forEach(function (value) { %>
       <tr>
-          <td><%= value.content %></td>
-          <td><a style="float: right; color: #095D3D" href="/timer.html">타이머</a></td>
-          <td><a href="/edit/<%= value.numb %>">수정</a></td>
-          <td><a href="/delete/<%= value.numb %>">삭제</a></td>
+        <td><%= value.td_content %></td>
+        <td id="time"><%= value.td_time %></td>
+        <td><a style="float: right; color: #095D3D" href="/timer">타이머</a></td>
+        <td><a href="/td_edit/<%= value.td_id %>">수정</a></td>
+        <td><a href="/td_delete/<%= value.td_id %>">삭제</a></td>
       </tr>
       <% }); %>
     </table>

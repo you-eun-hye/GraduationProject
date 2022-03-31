@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title>게시판</title>
+</head>
+
+<body>
+  <h1>전체 게시글</h1>
+  <table>
+    <% data.forEach(function (value) { %>
+    <tr>
+        <td><a href="/cm_board"><%= value.cm_title %></td>
+        <td><%= value.id %></td>
+    </tr>
+    <% }); %>
+  </table>
+  <a href="/cm_create">게시글 작성</a>
+</body>
+
+</html>

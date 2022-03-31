@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title>게시글 수정 페이지</title>
+</head>
+
+<body>
+  <form method="post">
+    <fieldset>
+      <table>
+        <tr>
+          <td><label>글 수정하기</label></td>
+          <td><input type="text" name="cm_content" value="<%= data.cm_content %>" /></td>
+        </tr>
+      </table>
+      <input type="submit" value="수정하기" />
+    </fieldset>
+  </form>
+</body>
+
+</html>

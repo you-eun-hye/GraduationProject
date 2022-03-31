@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title>특정 게시글 보기</title>
+</head>
+
+<body>
+  <table>
+    <% data.forEach(function (value) { %>
+    <tr>
+        <td><%= value.cm_title %></td>
+        <td><%= value.cm_content %></td>
+        <td><a href="/cm_edit/<%= value.cm_id %>">수정</a></td>
+        <td><a href="/cm_delete/<%= value.cm_id %>">삭제</a></td>
+    </tr>
+    <% }); %>
+  </table>
+</body>
+
+</html>
