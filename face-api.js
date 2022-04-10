@@ -1456,7 +1456,7 @@
         function DrawBoxOptions(options) {
             if (options === void 0) { options = {}; }
             var boxColor = options.boxColor, lineWidth = options.lineWidth, label = options.label, drawLabelOptions = options.drawLabelOptions;
-            this.boxColor = boxColor || 'rgba(0, 0, 255, 1)';
+            this.boxColor = boxColor || 'rgba(0, 0, 255, 0.5)';
             this.lineWidth = lineWidth || 2;
             this.label = label;
             var defaultDrawLabelOptions = {
@@ -1497,11 +1497,12 @@
             var box = det instanceof FaceDetection
                 ? det.box
                 : (isWithFaceDetection(det) ? det.detection.box : new Box(det));
-            var label = score ? "야호" + round(score) : undefined;
+            var label =  ""
+            //score ? + round(score) : undefined;
             var element = document.getElementById('warning')  // 코드 추가 부분
             new DrawBox(box, { label: label }).draw(canvasArg);
             // 코드 추가 부분
-            if(score < 0.55 ){
+            if(score < 0.60 ){
                 element.innerHTML = "<h5 class='bold' style='color:red'>고개 들어주세요</h5>";
             }
             else if(score > 0.80 ){
@@ -1520,7 +1521,7 @@
         _box.y = 80
         _box.width = 430
         _box.height = 300
-        var boxColor = 'rgba(0, 255, 250, 1)'
+        var boxColor = 'rgba(255, 0, 255, 1)'
         new DrawBox(_box, { boxColor: boxColor }).draw(canvasArg);
 
         var detectionsArray = Array.isArray(detections) ? detections : [detections];
@@ -1532,9 +1533,10 @@
                 ? det.box
                 : (isWithFaceDetection(det) ? det.detection.box : new Box(det));
             // var label = "사용자 ID"; 
-            var label = score ? + round(score) : undefined; 
+            var label = " "
+            //score ? + round(score) : undefined; 
             var element = document.getElementById('warning')
-            new DrawBox(box, { label: label }).draw(canvasArg);
+           // new DrawBox(box, { label: label }).draw(canvasArg);
             if(box.topLeft.x <= _box.x ||
                box.topRight.x >= _box.x+_box.width ||
                box.topLeft.y <= _box.y ||
