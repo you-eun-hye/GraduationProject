@@ -9,21 +9,62 @@
   <title>게시글 작성 페이지</title>
 </head>
 
+<style>
+  * {
+    box-sizing: border-box;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+
+  body {
+    margin: 0;
+    background-color: white;
+  }
+
+  .create-form {
+    width: 300px;
+    background-color: #EEEFF1;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    border-radius: 5px;
+    padding: 20px;
+  }
+
+  #cm_content {
+    font-size: 14px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  #cm_title {
+    font-size: 14px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  #submit-btn {
+    font-size: 14px;
+    background-color: #095D3D;
+    color: white;
+    width: 100%;
+    border-radius: 5px;
+    padding: 10px;
+    border: none;
+    text-align: center;
+  }
+</style>
+
 <body>
-  <form method="post">
-    <fieldset>
-      <table>
-        <tr>
-          <td><label>제목</label></td>
-          <td><input type="text" name="cm_title" /></td>
-        </tr>
-        <tr>
-          <td><label>내용</label></td>
-          <td><input type="text" name="cm_content" /></td>
-        </tr>
-      </table>
-      <input type="submit" value="작성">
-    </fieldset>
+  <form class="create-form" method="post">
+    <input type="text" name="cm_title" id="cm_content" placeholder="제목" />
+    <input type="text" name="cm_content" id="cm_content" placeholder="내용" />
+    <input type="submit" id="submit-btn" value="작성">
   </form>
 </body>
 </html>

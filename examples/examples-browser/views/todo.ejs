@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <!-- 위 사이드바와 todo리스트 사이에 통계 그래프 삽입 -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -9,6 +8,33 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <!-- UI-Kit불러오기 -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawVisualization);
+  
+    function drawVisualization() { 
+      var data = google.visualization.arrayToDataTable([
+          ['Today',      '국어',   '수학',      '영어',      '사회',        '과학',    '종합'],
+          ['2020.04.10',  165,      938,         522,         998,           450,       614.6],
+          ['2020.04.11',  135,      1120,        599,         1268,          288,       682],
+          ['2020.04.12',  157,      1167,        587,         807,           397,       623],
+          ['2020.04.13',  139,      1110,        615,         968,           215,       609.4],
+          ['2020.04.14',  136,      691,         629,         1026,          366,       569.6]
+        ]);
+      var options = {
+          title : 'Dayily Study Time',
+          vAxis: {title: '분단위'},
+          hAxis: {title: 'Day'}, 
+          seriesType: 'bars',
+          series: {5: {type: 'line'}}
+        };
+      
+      var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+      chart.draw(data, options);
+    }
+  </script>
 
   <title>홈페이지</title>
 
@@ -162,67 +188,73 @@
   </style>
 </head>
 
-<body style="padding-right: 50px; padding-left: 50px; padding-top: 30px;">
-<div class="mobile-top-bar">
-    <div class="ico toggle-side-bar-btn" data-ico-now-animating="N">
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
-    <div class="logo">PPT</div>
-</div>
+<body>
+  <div id="chart_div" style="width:900px; height: 300px; padding-left: 50px; padding-top: 30px;"></div>
+  <div class="mobile-top-bar">
+      <div class="ico toggle-side-bar-btn" data-ico-now-animating="N">
+          <div></div>
+          <div></div>
+          <div></div>
+      </div>
+      <div class="logo">PPT</div>
+  </div>
 
-<!-- 좌측 사이드 바 메뉴 -->
-<div class="right-side-bar-box">
-    <div class="right-side-bar">
-        <div class="menu-1">
-            <ul>
+  <!-- 좌측 사이드 바 메뉴 -->
+  <div class="right-side-bar-box">
+      <div class="right-side-bar">
+          <div class="menu-1">
+              <ul>
                 <li>
-                    <a href="./nums">통계</a>
-                    <ul class="sec-menu-box">
-                        <li>
-                            <a href="#">일간</a>
-                            <a href="#">주간</a>
-                            <a href="#">월간</a>
-                        </li>
-                    </ul>
+                  <a href="/todo">TODO</a>
                 </li>
-                <li>
-                    <a href="#">팔로우</a>
-                    <ul class="sec-menu-box">
-                        <li>
-                            <a href="#">팔로우</a>
-                            <a href="#">팔로잉</a>
-                            <a href="#">추천 친구</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="./community">게시판</a>
-                </li>
-                <li>
-                  <a href="/logout">로그아웃</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
+                  <li>
+                      <a href="./googleChart.html">통계</a>
+                      <ul class="sec-menu-box">
+                          <li>
+                              <a href="#">일간</a>
+                              <a href="#">주간</a>
+                              <a href="#">월간</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li>
+                      <a>팔로우</a>
+                      <ul class="sec-menu-box">
+                          <li>
+                              <a href="./follow">팔로우</a>
+                              <a href="#">팔로잉</a>
+                              <a href="./fl_list">추천 친구</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li>
+                      <a href="./community">게시판</a>
+                  </li>
+                  <li>
+                    <a href="/logout">로그아웃</a>
+                  </li>
+              </ul>
+          </div>
+      </div>
+  </div>
 
-  <a id="add" href="/td_create">할일 추가</a>
-  <a id="pose" href="/pose.html">pose</a>
-  
-  <div style="padding-left: 100px;">
-    <table>
-      <% data.forEach(function (value) { %>
-      <tr>
-        <td><%= value.td_content %></td>
-        <td id="time"><%= value.td_time %></td>
-        <td><a style="float: right; color: #095D3D" href="/timer">타이머</a></td>
-        <td><a href="/td_edit/<%= value.td_id %>">수정</a></td>
-        <td><a href="/td_delete/<%= value.td_id %>">삭제</a></td>
-      </tr>
-      <% }); %>
-    </table>
+  <div style="padding-right: 50px; padding-left: 50px; padding-top: 30px;">
+    <a id="add" href="/td_create">할일 추가</a>
+    <a id="pose" href="/pose.html">pose</a>
+    
+    <div style="padding-left: 100px;">
+      <table>
+        <% data.forEach(function (value) { %>
+        <tr>
+          <td><%= value.td_content %></td>
+          <td id="time"><%= value.td_time %></td>
+          <td><a style="float: right; color: #095D3D" href="/timer">타이머</a></td>
+          <td><a href="/td_edit/<%= value.td_id %>">수정</a></td>
+          <td><a href="/td_delete/<%= value.td_id %>">삭제</a></td>
+        </tr>
+        <% }); %>
+      </table>
+    </div>
   </div>
 </body>
 

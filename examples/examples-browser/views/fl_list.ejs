@@ -7,10 +7,11 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<!-- UI-Kit불러오기 -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
-  <title>게시판</title>
+  <title>회원목록</title>
 
   <style>
     /* 노말라이즈 */
@@ -24,7 +25,7 @@
       color:inherit;
     }
     /* 노말라이즈 끝 */
-
+  
     /* 라이브러리 */
     /* 상단바 */
     .mobile-top-bar {
@@ -41,7 +42,7 @@
       font-weight:bold;
       font-size:1.5rem;
     }
-
+  
     /* 토글 사이드바 버튼 아이콘 */
     .ico {
       position:absolute;
@@ -83,13 +84,13 @@
     .ico.active > div:nth-child(3) {
       transform:rotate(-45deg);
     }
-
+  
     /* 아이콘 색 변화 */
     .ico[data-ico-now-animating="Y"] > div {
       background-color:#095D3D;
     }
     /* 라이브러리 끝 */
-
+  
     /* 커스텀 */
     /* 좌측 사이드 바 */
     /* 좌측 사이드바 배경 */
@@ -107,7 +108,7 @@
       background-color:rgba(0,0,0,0.5);
       visibility:visible;
     }
-
+  
     /* 좌측 사이드바 */
     .right-side-bar {
       position:fixed;
@@ -145,67 +146,71 @@
     .right-side-bar > .menu-1 > ul ul ul {
       background-color:#dfdfdf;
     }
-   
-  </style>
+     
+    </style>
 </head>
 
-<body style="padding-right: 50px; padding-left: 50px; padding-top: 30px;">
+<body>
   <div class="mobile-top-bar">
     <div class="ico toggle-side-bar-btn" data-ico-now-animating="N">
-        <div></div>
-        <div></div>
-        <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
     </div>
-    <div class="logo">community</div>
+    <div class="logo">follow</div>
+  </div>
+  
+  <!-- 좌측 사이드 바 메뉴 -->
+  <div class="right-side-bar-box">
+    <div class="right-side-bar">
+      <div class="menu-1">
+        <ul>
+          <li>
+          <a href="/todo">TODO</a>
+          </li>
+          <li>
+            <a href="./googleChart.html">통계</a>
+            <ul class="sec-menu-box">
+              <li>
+                <a href="#">일간</a>
+                <a href="#">주간</a>
+                <a href="#">월간</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a>팔로우</a>
+            <ul class="sec-menu-box">
+              <li>
+                <a href="./follow">팔로우</a>
+                <a href="#">팔로잉</a>
+                <a href="./fl_list">추천 친구</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="./community">게시판</a>
+          </li>
+          <li>
+            <a href="/logout">로그아웃</a>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 
-  <!-- 좌측 사이드 바 메뉴 -->
-<div class="right-side-bar-box">
-  <div class="right-side-bar">
-      <div class="menu-1">
-          <ul>
-            <li>
-              <a href="/todo">TODO</a>
-            </li>
-              <li>
-                  <a href="./nums">통계</a>
-                  <ul class="sec-menu-box">
-                      <li>
-                          <a href="#">일간</a>
-                          <a href="#">주간</a>
-                          <a href="#">월간</a>
-                      </li>
-                  </ul>
-              </li>
-              <li>
-                <a>팔로우</a>
-                <ul class="sec-menu-box">
-                    <li>
-                        <a href="./follow">팔로우</a>
-                        <a href="#">팔로잉</a>
-                        <a href="./fl_list">추천 친구</a>
-                    </li>
-                </ul>
-              </li>
-              <li>
-                  <a href="./community">게시판</a>
-              </li>
-              <li>
-                <a href="/logout">로그아웃</a>
-              </li>
-          </ul>
-      </div>
+  <div style="padding-top: 50px; padding-left: 300px;">
+    회원 목록
+    <table>
+      <% data.forEach(function (value) { %>
+      <tr>
+          <td><%= value.nickname %></td>
+          <td><a href="/fl_insert/<%= value.id %>">팔로우</a></td>
+      </tr>
+      <% }); %>
+    </table>
+    <a href="/follow">팔로우 리스트</a>
   </div>
-</div>
-  <table>
-    <% data.forEach(function (value) { %>
-    <tr>
-        <td><a href="/cm_board">제목: <%= value.cm_title %></td>
-        <td>작성자: <%= value.id %></td>
-    </tr>
-    <% }); %>
-  </table>
-  <a href="/cm_create">게시글 작성</a>
 </body>
 
 <script>
@@ -217,12 +222,12 @@
 
     /* 만약 클릭된 버튼에 active 클래스가 있다면 */
     if ( $clicked.hasClass('active') ){
-        /* 사이드바를 없앤다 */
-        hideRightSideBar();
+      /* 사이드바를 없앤다 */
+      hideRightSideBar();
     }
     else {
-        /* active 클래스가 없으면 나타나게 한다 */
-        showRightSideBar();
+      /* active 클래스가 없으면 나타나게 한다 */
+      showRightSideBar();
     }
 
     /* 아이콘에 active 클래스가 없으면 active 클래스를 넣어주고 있으면 빼줌 */
@@ -262,19 +267,18 @@
   $('.right-side-bar > .menu-1 > ul > li').click(function() {
     var duration = 800;
     if ( $(this).hasClass('active') ) {
-        $(this).removeClass('active')
-        $(this).find(' > .sec-menu-box').slideUp(duration, "easeInOutSine");
+      $(this).removeClass('active')
+      $(this).find(' > .sec-menu-box').slideUp(duration, "easeInOutSine");
     }
     else {
-        // 기존에 활성화된 녀석들 정리
-        $(this).siblings('.active').find(' > .sec-menu-box').slideUp(duration, "easeInOutSine");
-        $(this).siblings('.active').removeClass('active');
+      // 기존에 활성화된 녀석들 정리
+      $(this).siblings('.active').find(' > .sec-menu-box').slideUp(duration, "easeInOutSine");
+      $(this).siblings('.active').removeClass('active');
 
-        // 현재 활성화 시켜야 하는 녀석 활성화
-        $(this).addClass('active');
-        $(this).find(' > .sec-menu-box').slideDown(duration, "easeInOutSine");
+      // 현재 활성화 시켜야 하는 녀석 활성화
+      $(this).addClass('active');
+      $(this).find(' > .sec-menu-box').slideDown(duration, "easeInOutSine");
     }
   })
 </script>
-
 </html>

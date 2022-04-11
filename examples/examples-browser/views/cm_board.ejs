@@ -5,21 +5,280 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <!-- UI-Kit불러오기 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
+
+  <style>
+    /* 노말라이즈 */
+    body, ul, li {
+      padding:0;
+      margin:0;
+      list-style:none;
+    }
+    a {
+      text-decoration:none;
+      color:inherit;
+    }
+    /* 노말라이즈 끝 */
+
+    /* 라이브러리 */
+    /* 상단바 */
+    .mobile-top-bar {
+      background-color:black;
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      z-index:1;
+    }
+    .mobile-top-bar > .logo {
+      text-align:center;
+      color:#095D3D;
+      font-weight:bold;
+      font-size:1.5rem;
+    }
+
+    /* 토글 사이드바 버튼 아이콘 */
+    .ico {
+      position:absolute;
+      top:50%;
+      left:auto;
+      right: 8px;
+      width:20px;
+      height:20px;
+      transform:translatey(-50%);
+      cursor:pointer;
+    }
+    .ico > div {
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:20%;
+      background-color:white;
+    }
+    .ico > div:nth-child(2) {
+      top:40%;
+      transition:visibility 0s .15s;
+    }
+    .ico.active > div:nth-child(2) {
+      visibility:hidden;
+      transition:visibility 0s;
+    }
+    .ico > div:nth-child(3) {
+      top:80%;
+    }
+    .ico > div:nth-child(1), .ico > div:nth-child(3) {
+      transition:top .15s .15s, transform .15s;
+    }
+    .ico.active > div:nth-child(1), .ico.active > div:nth-child(3) {
+      top:40%;
+      transform:rotate(45deg);
+      transition:top .15s, transform .15s .15s;
+    }
+    .ico.active > div:nth-child(3) {
+      transform:rotate(-45deg);
+    }
+
+    /* 아이콘 색 변화 */
+    .ico[data-ico-now-animating="Y"] > div {
+      background-color:#095D3D;
+    }
+    /* 라이브러리 끝 */
+
+    /* 커스텀 */
+    /* 좌측 사이드 바 */
+    /* 좌측 사이드바 배경 */
+    .right-side-bar-box {
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background-color:rgba(0,0,0,0);
+      visibility:hidden;
+      transition:visibility .5s, background-color .5s;
+    }
+    .right-side-bar-box.active {
+      background-color:rgba(0,0,0,0.5);
+      visibility:visible;
+    }
+
+    /* 좌측 사이드바 */
+    .right-side-bar {
+      position:fixed;
+      top:0;
+      right:-250px;
+      width:250px;
+      height:100%;
+      background-color:#efefef;
+      padding-top:40px;
+      transition:right .5s;
+    }
+    .right-side-bar-box.active > .right-side-bar {
+      right:0;
+    }
+    .right-side-bar > .menu-1 ul > li > a {
+      display:block;
+      padding:5px;
+    }
+    .right-side-bar > .menu-1 ul > li:hover > a {
+      color:#095D3D;
+    }
+    /* 혼자가 아닌 a 에 +를 붙혀준다 */
+    .right-side-bar > .menu-1 ul > li > a:not(:only-child)::after {
+      content:"+";
+      float:right;
+    }
+    /* 엑티브가 있는 메뉴(펼쳐진 메뉴)에 a에 - 를 붙혀준다 */
+    .right-side-bar > .menu-1 ul > li.active > a:not(:only-child)::after {
+      content:"-";
+    }
+    .right-side-bar > .menu-1 > ul ul {
+      display:none;
+      background-color:#cfcfcf;
+    }
+    .right-side-bar > .menu-1 > ul ul ul {
+      background-color:#dfdfdf;
+    }
+   
+  </style>
   <title>특정 게시글 보기</title>
 </head>
 
-<body>
-  <table>
-    <% data.forEach(function (value) { %>
-    <tr>
-        <td><%= value.cm_title %></td>
-        <td><%= value.cm_content %></td>
-        <td><a href="/cm_edit/<%= value.cm_id %>">수정</a></td>
-        <td><a href="/cm_delete/<%= value.cm_id %>">삭제</a></td>
-    </tr>
-    <% }); %>
-  </table>
+<body style="padding-right: 50px; padding-left: 50px; padding-top: 30px;">
+  <div class="mobile-top-bar">
+    <div class="ico toggle-side-bar-btn" data-ico-now-animating="N">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="logo">community</div>
+  </div>
+
+  <!-- 좌측 사이드 바 메뉴 -->
+<div class="right-side-bar-box">
+  <div class="right-side-bar">
+      <div class="menu-1">
+          <ul>
+            <li>
+              <a href="/todo">TODO</a>
+            </li>
+              <li>
+                  <a href="./nums">통계</a>
+                  <ul class="sec-menu-box">
+                      <li>
+                          <a href="#">일간</a>
+                          <a href="#">주간</a>
+                          <a href="#">월간</a>
+                      </li>
+                  </ul>
+              </li>
+              <li>
+                <a>팔로우</a>
+                <ul class="sec-menu-box">
+                    <li>
+                        <a href="./follow">팔로우</a>
+                        <a href="#">팔로잉</a>
+                        <a href="./fl_list">추천 친구</a>
+                    </li>
+                </ul>
+              </li>
+              <li>
+                  <a href="./community">게시판</a>
+              </li>
+              <li>
+                <a href="/logout">로그아웃</a>
+              </li>
+          </ul>
+      </div>
+  </div>
+</div>
+
+  <!-- 내가 작성한 글이 아닌데 수정, 삭제 버튼이 보임 -->
+  <!-- 특정 게시물을 보려고 들어온 건데 다른 게시글도 보임 -->
+  <div style="padding-left: 100px;">
+    <table>
+      <% data.forEach(function (value) { %>
+      <tr>
+          <td><span>제목: </span><%= value.cm_title %></td>
+          <td><span>내용: </span><%= value.cm_content %></td>
+          <td><a href="/cm_edit/<%= value.cm_id %>">수정</a></td>
+          <td><a href="/cm_delete/<%= value.cm_id %>">삭제</a></td>
+      </tr>
+      <% }); %>
+    </table>
+  </div>
 </body>
 
+<script>
+  /* 토글 사이드 바 버튼 관련 */
+  $('.toggle-side-bar-btn').click(function(){
+    //console.log("토글 사이드바 버튼클릭");
+
+    var $clicked = $(this);
+
+    /* 만약 클릭된 버튼에 active 클래스가 있다면 */
+    if ( $clicked.hasClass('active') ){
+        /* 사이드바를 없앤다 */
+        hideRightSideBar();
+    }
+    else {
+        /* active 클래스가 없으면 나타나게 한다 */
+        showRightSideBar();
+    }
+
+    /* 아이콘에 active 클래스가 없으면 active 클래스를 넣어주고 있으면 빼줌 */
+    $clicked.toggleClass('active');
+
+  });
+
+  /* 왼쪽 사이드바 함수 */
+  function showRightSideBar(){
+    /* 메뉴바가 나올때 안에 펼쳐져 있는 메뉴들을 다 접기위해 엑티브를 없앤다 */
+    $('.right-side-bar > .menu-1 li.active').removeClass('active');
+    $('.right-side-bar-box').addClass('active');
+  };
+  function hideRightSideBar(){
+    $('.right-side-bar-box').removeClass('active');
+  };
+
+  /* 메뉴 접히고 펼치기 */ 
+  $('.right-side-bar > .menu-1 > ul > li').click(function(e){
+    /* 클릭된 메뉴 안에 다른 메뉴를 클릭하면 위에있는 메뉴가 같이 클릭되는데 그것을 막아준다 */
+    e.stopPropagation();
+  });
+
+  /* 좌측 사이드바 배경을 클릭했을때 */
+  $('.right-side-bar-box').click(function(){
+    //console.log('배경클릭');
+
+    /* 토글 사이드바 버튼을 클릭한 효과를 만듬 */
+    $('.toggle-side-bar-btn').click();
+  });
+
+  /* 사이드바를 클릭할때 상위요소인 배경이 같이 클릭되어서 사이드바가 들어가버리기 때문에 그것을 막음 */
+  $('.right-side-bar').click(function(e){
+    e.stopPropagation();
+  });
+
+  $('.right-side-bar > .menu-1 > ul > li').click(function() {
+    var duration = 800;
+    if ( $(this).hasClass('active') ) {
+        $(this).removeClass('active')
+        $(this).find(' > .sec-menu-box').slideUp(duration, "easeInOutSine");
+    }
+    else {
+        // 기존에 활성화된 녀석들 정리
+        $(this).siblings('.active').find(' > .sec-menu-box').slideUp(duration, "easeInOutSine");
+        $(this).siblings('.active').removeClass('active');
+
+        // 현재 활성화 시켜야 하는 녀석 활성화
+        $(this).addClass('active');
+        $(this).find(' > .sec-menu-box').slideDown(duration, "easeInOutSine");
+    }
+  })
+</script>
 </html>

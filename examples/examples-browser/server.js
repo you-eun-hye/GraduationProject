@@ -31,16 +31,29 @@ app.get('/register', function (req, res){
         res.send(data)
     })
 });
+
 app.post('/register', function (req, res){
     const body = req.body;
+    const id = body.id;
+    const pwd = body.pwd;
+    const nickname = body.nickname;
 
-    db.query('insert into users (id, pwd, nickname) values (?, ?, ?);', [ body.id, body.pwd, body.nickname ],
+    db.query('insert into users (id, pwd, nickname) values (?, ?, ?);', [ id, pwd, nickname ],
     function (){
+        if(!id || !pwd || !nickname){
+            res.send(
+                `<script>
+                  alert('회원가입 정보를 전부 입력하십시오.');
+                  location.href="/register";
+                </script>`
+            );
+        } else {
         res.redirect('/')
+        }
     })
 });
 
-// login
+//login
 app.get('/', function (req,res){
     fs.readFile('./views/login.ejs', 'utf8', function (err, data){
         res.send(data)
@@ -53,12 +66,20 @@ app.post('/', function (req,res){
     const pwd = body.pwd;
 
     db.query('select * from users where id=?',[id],(err,data)=>{
-        if(id == data[0].id && pwd == data[0].pwd){
+        if(!id || !pwd){
+            res.send(
+                `<script>
+                  alert('로그인 정보를 입력하십시오.');
+                  location.href="/";
+                </script>`
+            );
+        }
+        else if(id == data[0].id && pwd == data[0].pwd){
             req.session.name = id;
             req.session.save(function(){
                 res.redirect('/todo');
             });
-        }else{
+        } else {
             res.send(
                 `<script>
                   alert('잘못된 정보입니다.');
@@ -94,7 +115,7 @@ app.post('/timer', function(req,res){
 // todolist
 app.get('/todo', function(req, res){
     fs.readFile('./views/todo.ejs', 'utf8', function (err, data){
-        db.query('select * from todolist where id=?', [req.session.name, req.params.td_time],
+        db.query('select * from todolist where id=?', [req.session.name],
         function (err, results){
             if (err){
                 res.send(err)
@@ -102,13 +123,6 @@ app.get('/todo', function(req, res){
                 res.send(ejs.render(data, { data: results }))
             }
         })
-    })
-});
-
-app.get('/td_delete/:td_id', function (req, res){
-    db.query('delete from todolist where td_id=? and id=?', [req.params.td_id, req.session.name],
-    function (){
-        res.redirect('/todo')
     })
 });
 
@@ -120,14 +134,14 @@ app.get('/td_create', function (req, res){
 
 app.post('/td_create', function (req, res){
     const body = req.body;
-    db.query('insert into todolist (id, td_content, td_time) values (?, ?, "00:00:00");', [req.session.name, body.td_content],
+    db.query('insert into todolist (id, td_content) values (?, ?);', [req.session.name, body.td_content],
     function (){
         res.redirect('/todo')
     })
 });
 
 app.get('/td_edit/:td_id', function (req, res){
-    fs.readFile('./views/edit.ejs', 'utf8', function (err, data){
+    fs.readFile('.views/td_edit.ejs', 'utf8', function (err, data){
         db.query('select * from todolist where td_id=? and id=?', [req.params.td_id, req.session.name],
         function (err, result){
             res.send(ejs.render(data, { data: result[0] }))
@@ -143,10 +157,17 @@ app.post('/td_edit/:td_id', function (req, res){
     })
 });
 
+app.get('/td_delete/:td_id', function (req, res){
+    db.query('delete from todolist where td_id=? and id=?', [req.params.td_id, req.session.name],
+    function (){
+        res.redirect('/todo')
+    })
+});
+
 // community
 app.get('/community', function(req, res){
     fs.readFile('./views/community.ejs', 'utf8', function (err, data){
-        db.query('select * from community', function (err, results){
+        db.query('select community.*, users.nickname from community inner join users on community.id=users.id', function (err, results){
             if (err){
                 res.send(err)
             } else {
@@ -156,7 +177,7 @@ app.get('/community', function(req, res){
     })
 });
 
-app.get('/cm_board', function(req, res){
+app.get('/cm_board/', function(req, res){
     fs.readFile('./views/cm_board.ejs', 'utf8', function (err, data){
         db.query('select * from community', function (err, results){
             if (err){
@@ -204,6 +225,48 @@ app.get('/cm_delete/:cm_id', function (req, res){
     function (){
         res.redirect('/community')
     })
+});
+
+// follow
+app.get('/follow', function(req, res){
+    fs.readFile('./views/follow.ejs', 'utf8', function (err, data){
+        db.query('select follow.*, users.nickname from follow inner join users on follow.fl_id=users.id where follow.id=?', [req.session.name],
+        function (err, results){
+            if (err){
+                res.send(err)
+            } else {
+                res.send(ejs.render(data, { data: results }))
+            }
+        })
+    })
+});
+
+app.get('/fl_list', function(req, res){
+    fs.readFile('./views/fl_list.ejs', 'utf8', function (err, data){
+        db.query('select * from users', function (err, results){
+            if (err){
+                res.send(err)
+            } else {
+                res.send(ejs.render(data, { data: results }))
+            }
+        })
+    })
+});
+
+app.get('/fl_insert/:id', function (req, res){
+    if(req.session.name == req.params.id){
+        res.send(
+            `<script>
+              alert('자기 자신은 팔로우 할 수 없습니다.');
+              location.href="/fl_list";
+            </script>`
+        );
+    } else {
+        db.query('insert into follow (id, fl_id) values (?, ?);', [req.session.name, req.params.id],
+        function (){
+            res.redirect('/follow')
+        })
+    }
 });
 
 const viewsDir = path.join(__dirname, 'views')
