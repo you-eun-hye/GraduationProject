@@ -144,7 +144,8 @@ app.get('/td_edit/:td_id', function (req, res){
     fs.readFile('.views/td_edit.ejs', 'utf8', function (err, data){
         db.query('select * from todolist where td_id=? and id=?', [req.params.td_id, req.session.name],
         function (err, result){
-            res.send(ejs.render(data, { data: result[0] }))
+        // render가 문제거나 send가 문제거나 edit페이지에서 데이터를 못받아서 생기는 문제거나
+            res.send(ejs.render(data, { data: result[0] })) 
         })
     })
 });
