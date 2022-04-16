@@ -105,7 +105,6 @@ app.get('/timer', function (req,res){
 
 app.post('/timer', function(req,res){
     const body = req.body;
-    console.log(body.timer);
     db.query('update todolist SET td_time=? where td_id=? and id=?;', [body.td_time, req.params.td_id, req.session.name],
     function (){
         res.redirect('/todo')
@@ -134,17 +133,16 @@ app.get('/td_create', function (req, res){
 
 app.post('/td_create', function (req, res){
     const body = req.body;
-    db.query('insert into todolist (id, td_content) values (?, ?);', [req.session.name, body.td_content],
+    db.query('insert into todolist (id, td_content, td_time) values (?, ?, 0);', [req.session.name, body.td_content],
     function (){
         res.redirect('/todo')
     })
 });
 
 app.get('/td_edit/:td_id', function (req, res){
-    fs.readFile('.views/td_edit.ejs', 'utf8', function (err, data){
+    fs.readFile('./views/td_edit.ejs', 'utf8', function (err, data){
         db.query('select * from todolist where td_id=? and id=?', [req.params.td_id, req.session.name],
         function (err, result){
-        // render가 문제거나 send가 문제거나 edit페이지에서 데이터를 못받아서 생기는 문제거나
             res.send(ejs.render(data, { data: result[0] })) 
         })
     })
@@ -277,9 +275,6 @@ app.use(express.static(path.join(__dirname, '../images')))
 app.use(express.static(path.join(__dirname, '../media')))
 app.use(express.static(path.join(__dirname, '../../weights')))
 app.use(express.static(path.join(__dirname, '../../dist')))
-
-app.get('/timer', (req, res) => res.redirect('/webcamFaceDetection.html'))
-app.get('/timer', (req, res) => res.sendFile(path.join(viewsDir, 'webcamFaceDetection.html')))
 
 app.listen(3000, () => console.log('Listening on port 3000!'))
 

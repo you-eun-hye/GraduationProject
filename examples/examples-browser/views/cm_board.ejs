@@ -29,9 +29,9 @@
               static
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="./googleChart.html">일간</a></li>
-              <li><a class="dropdown-item" href="./googleChart.html">주간</a></li>
-              <li><a class="dropdown-item" href="./googleChart.html">연간</a></li>
+              <li><a class="dropdown-item" href="./static_daily.html">일간</a></li>
+              <li><a class="dropdown-item" href="./static_monthly.html">주간</a></li>
+              <li><a class="dropdown-item" href="./static_yearly.html">연간</a></li>
             </ul>
           </li>
           <!-- 게시판 -->
@@ -61,6 +61,7 @@
   <table class="table">
     <thead>
       <tr>
+        <th scope="col"></th>
         <th scope="col">제목</th>
         <th scope="col">내용</th>
         <th scope="col">수정</th>
@@ -73,8 +74,8 @@
           <th scope="row">1</th>
           <td><%= value.cm_title %></td>
           <td><%= value.cm_content %></td>
-          <td><a href="/cm_edit/<%= value.cm_id %>">수정 아이콘</a></td>
-          <td><a href="/cm_delete/<%= value.cm_id %>">삭제 아이콘</a></td>
+          <td><a href="/cm_edit/<%= value.cm_id %>"><img style="width: 30px;" src="image/pen.png"/></a></td>
+          <td><a href="/cm_delete/<%= value.cm_id %>"><img style="width: 30px;" src="image/delete.png"/></a></td>
         </tr>
       <% }); %>
     </tbody>

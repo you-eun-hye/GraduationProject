@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yearly</title>
+
+    <!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	<!-- Option 1: Bootstrap Bundle with Popper -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript">
+		google.charts.load('current', {'packages':['corechart']});
+		google.charts.setOnLoadCallback(drawVisualization);
+		function drawVisualization() { 
+			// 연간
+			var data_Yearly = google.visualization.arrayToDataTable([
+					['Month',      '국어',   '수학',      '영어',      '사회',        '과학',     '종합'],
+					['2020',       165,      938,         522,         998,           450,       614.6],
+					['2021',       135,      1120,        599,         1268,          288,       682],
+					['2022',       157,      1167,        587,         807,           397,       623]
+				]);
+			var options_Yearly = {
+				title : 'Yearly Study Time',
+				vAxis: {title: '일단위'},
+				hAxis: {title: 'Year'}, 
+				seriesType: 'bars',
+				series: {5: {type: 'line'}}
+			};
+			var chart_Yearly = new google.visualization.ComboChart(document.getElementById('chart_Yearly'));
+			chart_Yearly.draw(data_Yearly, options_Yearly);
+		}
+	</script>
+</head>
+<body>
+    <!-- navbar -->
+	  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="container-fluid">
+		  <a class="navbar-brand" href="#">PPT</a>
+		  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+			  <!-- home -->
+			  <li class="nav-item">
+				<a class="nav-link active" aria-current="page" href="./todo">Home</a>
+			  </li>
+			  <!-- static -->
+			  <li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+				  static
+				</a>
+				<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+					<li><a class="dropdown-item" href="./static_daily.html">일간</a></li>
+					<li><a class="dropdown-item" href="./static_monthly.html">주간</a></li>
+					<li><a class="dropdown-item" href="./static_yearly.html">연간</a></li>
+				</ul>
+			  </li>
+			  <!-- 게시판 -->
+			  <li class="nav-item">
+				<a class="nav-link active" aria-current="page" href="./community">community</a>
+			  </li>
+			  <!-- 팔로우 -->
+			  <li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+				  follow
+				</a>
+				<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+				  <li><a class="dropdown-item" href="./follow">follow list</a></li>
+				  <li><a class="dropdown-item" href="./fl_list">recommend users</a></li>
+				</ul>
+			  </li>
+			  <!-- 로그아웃 -->
+			  <li class="nav-item">
+				<a class="nav-link active" aria-current="page" href="/logout">logout</a>
+			  </li>
+			</ul>
+		  </div>
+		</div>
+	  </nav>
+
+      <div id="chart_Yearly" style="height: 500px;"></div>
+</body>
+</html>

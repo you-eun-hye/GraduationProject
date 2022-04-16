@@ -27,6 +27,15 @@
     margin-bottom: 10px;
   }
 
+  #nickname {
+    font-size: 14px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
   #pwd {
     font-size: 14px;
     width: 100%;

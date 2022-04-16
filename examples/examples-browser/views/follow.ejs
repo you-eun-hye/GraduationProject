@@ -30,9 +30,9 @@
                 static
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="./googleChart.html">일간</a></li>
-                <li><a class="dropdown-item" href="./googleChart.html">주간</a></li>
-                <li><a class="dropdown-item" href="./googleChart.html">연간</a></li>
+                <li><a class="dropdown-item" href="./static_daily.html">일간</a></li>
+                <li><a class="dropdown-item" href="./static_monthly.html">주간</a></li>
+                <li><a class="dropdown-item" href="./static_yearly.html">연간</a></li>
               </ul>
             </li>
             <!-- 게시판 -->
@@ -62,6 +62,7 @@
   <table class="table">
     <thead>
       <tr>
+        <th scope="col"></th>
         <th scope="col">follower</th>
       </tr>
     </thead>
@@ -74,6 +75,8 @@
       <% }); %>
     </tbody>
   </table>
-  <a href="/fl_list">회원 목록</a>
+  <div style="text-align: center;">
+    <a href="/fl_list"><img style="width: 50px;" src="image/plus.png"/></a>
+  </div>
 </body>
 </html>

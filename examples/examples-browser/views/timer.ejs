@@ -3,10 +3,136 @@
 <head>
   <script src="face-api.js"></script>
   <script src="js/faceDetectionControls.js"></script>
-  <link rel="stylesheet" href="css/timer.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.css">
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+
+  <style>
+    .page-container {
+      left: 0;
+      right: 0;
+      margin: auto;
+      margin-top: 80px;
+      padding-left: 100px;
+      display: inline-flex !important;
+    }
+
+    #navbar {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+    
+    .center-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    
+    .side-by-side {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .side-by-side >* {
+      margin: 0 5px;
+    }
+    
+    .bold {
+      font-weight: bold;
+    }
+    
+    .margin-sm {
+      margin: 5px;
+    }
+    
+    .margin {
+      margin: 20px;
+    }
+    
+    .button-sm {
+      padding: 0 10px !important;
+    }
+    
+    .pad-sides-sm {
+      padding: 0 8px !important;
+    }
+    
+    #github-link {
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+      border-bottom: 1px solid;
+      margin-bottom: 10px;
+    }
+    
+    #overlay, .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    
+    #facesContainer canvas {
+      margin: 10px;
+    }
+    
+    input[type="file"]::-webkit-file-upload-button {
+        background: #26a69a;
+        border: 1px solid gray;
+        cursor: pointer;
+        color: #fff;
+        border-radius: .2em;
+    }
+
+    .timer-box{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 125px;
+    }
+    .timer{
+      font-size: 60px;
+      margin-bottom: 30px;
+      transition: all 1s;
+    }
+    .timer-form__Btn{
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      text-align: center;
+      padding-bottom: 25px;
+    }
+    .timerBtn{
+      height: 30px;
+      width: 100px;
+      border-radius: 25px;
+      margin-left: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .timerBtn i {
+      transition: all 0.2s ease-in-out;
+      cursor: pointer;
+    }
+    .timerBtn i:active,
+    .timerBtn i:hovor{
+      font-size: 30px;
+    }
+    .timerBtn input{
+      transition: all 0.2s ease-in-out;
+      cursor: pointer;
+    }
+    .timerBtn input:active,
+    .timerBtn input:hovor{
+      font-size: 30px;
+    }
+    .start + div > .timerBtn:nth-child(1){
+      display: none;
+    }
+  </style>
 </head>
 
 <body>
@@ -21,9 +147,7 @@
     </div>
 
     <div class="center-content">
-      <div id="warning" style="padding-bottom:50px">
-
-      </div>
+      <div id="warning" style="padding-bottom:50px"></div>
 
       <!-- tiny_face_detector_controls -->
       <span id="tiny_face_detector_controls">
@@ -61,25 +185,31 @@
       </span>
       <!-- tiny_face_detector_controls -->
 
-      <form method="post">
-        <span class="js-timer">
-          <h2 class="timer bold" name="timer" id="timer">00:00:00</h2><br>
-          <div style="text-align:center">
-            <input class="js-timer__startBtn timerBtn" type="button" value="Start">
-            <input class="js-timer__stopBtn timerBtn" type="button" value="Stop">
-            <input class="js-timer__endBtn timerBtn" type="submit" value="End">
+      <div class="timer-box">
+        <div class="timer js-timer">00:00:00</div>
+        <div class="timer-form__Btn">
+          <div class="timerBtn js-timer__startBtn">
+            <i><img style="width: 30px;" src="image/start.png"/></i>
           </div>
-        </span>
-      </form>
+          <div class="timerBtn js-timer__endBtn">
+            <button style="border: 0; outline: 0; background-color:transparent;;" type="submit" value="timer" ><img style="width: 30px;" src="image/stop.png"/></button>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 
   <script>
-    const timer = document.querySelector('.timer'),
-    stopBtn = document.querySelector('.js-timer__stopBtn'),
-    startBtn = document.querySelector('.js-timer__startBtn');
+    const timer = document.querySelector('.js-timer'),
+    startBtn = document.querySelector('.js-timer__startBtn'),
+    endBtn = document.querySelector('.js-timer__endBtn'),
+    element = document.getElementById('warning');
     let TIME = 0;
     let cron;
+    let start;
+    let end;
+    let studyTime; // 밀리초 단위인 숫자
+    let sumTime = 0;
 
 
     // 타이머 함수
@@ -98,17 +228,34 @@
     // 타이머 실행 버튼
     function startButton(){
         updateTimer();
-        stopButton();
+        clearInterval(cron);
         cron = setInterval(updateTimer, 1000); // 매 초당 updateTimer 반복
+        start = new Date();
+        console.log("startFuc_start "+start);
     }
 
     function stopButton(){
       clearInterval(cron);
+      end = new Date();
+      studyTime = end - start; // 밀리초 단위의 숫자
+      sumTime += studyTime;
+      console.log("stopFuc_end "+end);
+      console.log("stopFuc_studyTime "+studyTime);
+      console.log("stopFuc_sumTime "+sumTime);
+    }
+
+    function endButton(){
+      clearInterval(cron);
+      end = new Date();
+      studyTime = end - start; // 밀리초 단위
+      sumTime += studyTime;
+      console.log("endFuc_end "+end);
+      console.log("endFuc_studyTime "+studyTime);
+      console.log("endFuc_sumTime "+sumTime);
     }
 
     startBtn.addEventListener('click', startButton);
-    stopBtn.addEventListener('click', stopButton);
-
+    endBtn.addEventListener('click', endButton);
 
 
     let forwardTimes = []
@@ -129,15 +276,10 @@
       if(videoEl.paused || videoEl.ended || !isFaceDetectionModelLoaded())
         return setTimeout(() => onPlay()) // 얼굴 나타날 때까지 기다렸다가 다시 실행
 
-
       const options = getFaceDetectorOptions() // 대충 얼굴가져오는 거
-
       const ts = Date.now() // 현재까지 경과된 초를 변수에 담음
-
       const result = await faceapi.detectSingleFace(videoEl, options) // 얼굴가져오는 거 2
-
       updateTimeStats(Date.now() - ts) // 걸린 시간 최종
-
 
       // 여기가 얼굴 사각형 관련 코드임
       if (result) {
@@ -145,13 +287,11 @@
         const dims = faceapi.matchDimensions(canvas, videoEl, true) // 얼굴 사이즈 맞춰 사각형 생성
         faceapi.draw.drawBox(canvas, faceapi.resizeResults(result, dims))
       }
-      if(!result){
+      if(!result || element.innerHTML != ""){
         stopButton();
       }
-
       setTimeout(() => onPlay()) // 마찬가지로 기다렸다가 다시 실행
     }
-
 
     // 사용 기능 바꼈을 때(Tiny_face_detector), 영상 이미지로 쪼개서 가져오는 코드
     async function run() {
@@ -166,14 +306,12 @@
       videoEl.srcObject = stream
     }
 
-
     function updateResults() {} // 넌 뭐야?
-
 
     // 사각형 보여주고 초기화시키고 다시 사각형 보여주고 하는 함수
     $(document).ready(function() {
-      startButton()
       initFaceDetectionControls()
+      startButton()
       run()
     })
   </script>

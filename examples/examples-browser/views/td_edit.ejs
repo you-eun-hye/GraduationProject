@@ -72,9 +72,9 @@
                 static
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="./googleChart.html">일간</a></li>
-                <li><a class="dropdown-item" href="./googleChart.html">주간</a></li>
-                <li><a class="dropdown-item" href="./googleChart.html">연간</a></li>
+                <li><a class="dropdown-item" href="./static_daily.html">일간</a></li>
+                <li><a class="dropdown-item" href="./static_monthly.html">주간</a></li>
+                <li><a class="dropdown-item" href="./static_yearly.html">연간</a></li>
               </ul>
             </li>
             <!-- 게시판 -->
@@ -101,7 +101,7 @@
     </nav>
 
   <form class="edit-form" method="post">
-    <!-- <input type="text" name="td_content" id="td-content" value="<%= td_data.content %>" /> -->
+    <input type="text" name="td_content" id="td_content" value="<%= data.content %>" placeholder="수정 내용 입력"/>
     <input type="submit" id="submit-btn" value="수정하기" />
   </form>
 </body>

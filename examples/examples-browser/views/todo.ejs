@@ -55,9 +55,9 @@
               static
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="./googleChart.html">일간</a></li>
-              <li><a class="dropdown-item" href="./googleChart.html">주간</a></li>
-              <li><a class="dropdown-item" href="./googleChart.html">연간</a></li>
+              <li><a class="dropdown-item" href="./static_daily.html">일간</a></li>
+              <li><a class="dropdown-item" href="./static_monthly.html">주간</a></li>
+              <li><a class="dropdown-item" href="./static_yearly.html">연간</a></li>
             </ul>
           </li>
           <!-- 게시판 -->
@@ -84,9 +84,8 @@
   </nav>
 
   <!-- 일간 그래프 -->
-  <div id="chart_div" style="width:900px; height: 300px;"></div>
+  <div id="chart_div" style="height: 300px;"></div>
 
-  <a href="/td_create">할일 추가</a>
   <table class="table">
     <thead>
       <tr>
@@ -104,13 +103,16 @@
         <th scope="row">1</th>
         <td><%= value.td_content %></td>
         <td><%= value.td_time %></td>
-        <td><a href="/timer">시계 아이콘</a></td>
-        <td><a href="/td_edit/<%= value.td_id %>">연필 아이콘</a></td>
-        <td><a href="/td_delete/<%= value.td_id %>">휴지통 아이콘</a></td>
+        <td><a href="/timer"><img style="width: 30px;" src="image/timer.png"/></a></td>
+        <td><a href="/td_edit/<%= value.td_id %>"><img style="width: 30px;" src="image/pen.png"/></a></td>
+        <td><a href="/td_delete/<%= value.td_id %>"><img style="width: 30px;" src="image/delete.png"/></a></td>
       </tr>
       <% }); %>
     </tbody>
   </table>
+  <div style="text-align: center;">
+    <a href="/td_create"><img style="width: 50px;" src="image/plus.png"/></a>
+  </div>
 </body>
 
 </html>
