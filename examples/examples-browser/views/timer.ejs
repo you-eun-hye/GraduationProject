@@ -225,25 +225,27 @@
       TIME++;
     }
 
-    // 타이머 실행 버튼
+    // 타이머 실행 버튼, timer페이지에서 start버튼 클릭 시 시간 측정하는 함수
     function startButton(){
         updateTimer();
         clearInterval(cron);
         cron = setInterval(updateTimer, 1000); // 매 초당 updateTimer 반복
-        start = new Date();
+        start = new Date(); // 현시각 변수 할당
         console.log("startFuc_start "+start);
     }
 
+    // 시간 정지 함수, 프레임을 벗어났거나 얼굴이 인식안될 때 사용
     function stopButton(){
       clearInterval(cron);
-      end = new Date();
-      studyTime = end - start; // 밀리초 단위의 숫자
+      end = new Date(); // 현시각 변수 할당
+      studyTime = end - start; // 밀리초 단위의 숫자, 공부시간
       sumTime += studyTime;
       console.log("stopFuc_end "+end);
       console.log("stopFuc_studyTime "+studyTime);
       console.log("stopFuc_sumTime "+sumTime);
     }
 
+    // 시간 측정 종료 함수, end버튼을 누르면 studyTime 변수가 DB에 저장되고 todo페이지로 넘어가야함
     function endButton(){
       clearInterval(cron);
       end = new Date();
