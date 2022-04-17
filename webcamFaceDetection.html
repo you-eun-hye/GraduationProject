@@ -69,7 +69,7 @@
 
       <div class="row" style="width: 200px;" >       
         <input type= "checkbox" id="inputvideo"  value="버튼"/>
-        <label for="inputvideo">video</label>
+        <label for="inputvideo"> Video</label>
       </div>
   
       <span class="timer">
@@ -95,6 +95,11 @@
      withBoxes = !$(e.target).prop('checked') // 없이 진행할떄 체크 박스 실행 안됨.
     }
     
+    function video(){
+      checkbox = !$(e.target).prop('checked')
+      
+     
+    }
     
 
 
@@ -130,6 +135,7 @@
 
     let forwardTimes = []
     let withBoxes = true // 추가 부분
+    let checkbox = true 
 
     // 감지되기까지 시간과 정확도 관련 함수
     function updateTimeStats(timeInMs) {
@@ -163,11 +169,12 @@
         
         
         if (withBoxes) {
-          //faceapi.draw.drawDetections(canvas, resizedResult)
+          faceapi.draw.drawDetections(canvas, resizedResult)
           faceapi.draw.drawBox(canvas, faceapi.resizeResults(result, dims)) 
         } 
-        faceapi.draw.drawDetections(canvas, resizedResult)
-        //this.boxColor = boxColor || 'rgba(0, 0, 255, 0.5)'
+        //faceapi.draw.drawDetections(canvas, resizedResult)
+        //faceapi.draw.drawBox(canvas, faceapi.resizeResults(result, dims))
+        
         
       }
      
