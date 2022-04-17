@@ -36,21 +36,29 @@ app.post('/register', function (req, res){
     const body = req.body;
     const id = body.id;
     const pwd = body.pwd;
+    const repwd = body.repwd;
     const nickname = body.nickname;
 
-    db.query('insert into users (id, pwd, nickname) values (?, ?, ?);', [ id, pwd, nickname ],
-    function (){
-        if(!id || !pwd || !nickname){
-            res.send(
-                `<script>
-                  alert('회원가입 정보를 전부 입력하십시오.');
-                  location.href="/register";
-                </script>`
-            );
-        } else {
-        res.redirect('/')
-        }
-    })
+    if(!id || !pwd || !nickname){
+        res.send(
+            `<script>
+            alert('회원가입 정보를 전부 입력하십시오.');
+            location.href="/register";
+            </script>`
+        );
+    } else if(pwd != repwd){
+        res.send(
+            `<script>
+            alert('재확인 비밀번호가 틀렸습니다.');
+            location.href="/register";
+            </script>`
+        );
+    } else {
+        db.query('insert into users (id, pwd, nickname) values (?, ?, ?);', [ id, pwd, nickname ],
+        function (){
+            res.redirect('/')
+        })
+    }
 });
 
 //login
@@ -176,9 +184,36 @@ app.get('/community', function(req, res){
     })
 });
 
-app.get('/cm_board/', function(req, res){
+app.get('/cm_board/:cm_id', function(req, res){
     fs.readFile('./views/cm_board.ejs', 'utf8', function (err, data){
-        db.query('select * from community', function (err, results){
+        db.query('select * from community where cm_id=?', [req.params.cm_id],
+        function (err, results){
+            if (err){
+                res.send(err)
+            } else {
+                res.send(ejs.render(data, { data: results }))
+            }
+        })
+    })
+});
+
+app.get('/cm_mycommunity', function(req, res){
+    fs.readFile('./views/cm_mycommunity.ejs', 'utf8', function (err, data){
+        db.query('select * from community where id=?', [req.session.name],
+        function (err, results){
+            if (err){
+                res.send(err)
+            } else {
+                res.send(ejs.render(data, { data: results }))
+            }
+        })
+    })
+});
+
+app.get('/cm_myboard/:cm_id', function(req, res){
+    fs.readFile('./views/cm_myboard.ejs', 'utf8', function (err, data){
+        db.query('select * from community where cm_id=?', [req.params.cm_id],
+        function (err, results){
             if (err){
                 res.send(err)
             } else {
@@ -243,6 +278,19 @@ app.get('/follow', function(req, res){
 app.get('/fl_list', function(req, res){
     fs.readFile('./views/fl_list.ejs', 'utf8', function (err, data){
         db.query('select * from users', function (err, results){
+            if (err){
+                res.send(err)
+            } else {
+                res.send(ejs.render(data, { data: results }))
+            }
+        })
+    })
+});
+
+app.get('/fl_td/:fl_id', function(req, res){
+    fs.readFile('./views/fl_td.ejs', 'utf8', function (err, data){
+        db.query('select todolist.*, users.nickname from todolist inner join users on todolist.id=users.id where todolist.id=?', [req.params.fl_id],
+        function (err, results){
             if (err){
                 res.send(err)
             } else {

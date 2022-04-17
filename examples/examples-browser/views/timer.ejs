@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.css">
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+  <title>timer</title>
 
   <style>
     .page-container {
@@ -91,6 +92,7 @@
       flex-direction: column;
       align-items: center;
       margin-top: 125px;
+      padding-left: 250px;
     }
     .timer{
       font-size: 60px;
@@ -147,10 +149,10 @@
     </div>
 
     <div class="center-content">
-      <div id="warning" style="padding-bottom:50px"></div>
+      <div id="warning" style="padding-bottom:50px; padding-left: 250px;"></div>
 
       <!-- tiny_face_detector_controls -->
-      <span id="tiny_face_detector_controls">
+      <!-- <span id="tiny_face_detector_controls">
         <div class="row side-by-side">
           <div class="row input-field" style="margin-right: 20px;">
             <select id="inputSize">
@@ -182,7 +184,7 @@
             <i class="material-icons left">+</i>
           </button>
         </div>
-      </span>
+      </span> -->
       <!-- tiny_face_detector_controls -->
 
       <div class="timer-box">
@@ -251,6 +253,7 @@
       end = new Date();
       studyTime = end - start; // 밀리초 단위
       sumTime += studyTime;
+      location.href = "/todo"
       console.log("endFuc_end "+end);
       console.log("endFuc_studyTime "+studyTime);
       console.log("endFuc_sumTime "+sumTime);

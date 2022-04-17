@@ -1520,10 +1520,11 @@
             var box = det instanceof FaceDetection
                 ? det.box
                 : (isWithFaceDetection(det) ? det.detection.box : new Box(det));
-            // var label = "사용자 ID"; 
-            var label = score ? + round(score) : undefined; 
+            var label = "User"; 
+            // var label = score ? + round(score) : undefined; 
             var element = document.getElementById('warning')
             new DrawBox(box, { label: label }).draw(canvasArg);
+            // 프레임 관련 조건문
             if(box.topLeft.x <= _box.x ||
                box.topRight.x >= _box.x+_box.width ||
                box.topLeft.y <= _box.y ||
@@ -1531,6 +1532,13 @@
                ){
                 element.innerHTML = "<h5 class='bold' style='color:red'>올바른 자세를 잡아주세요.</h5>";
             } 
+            // 얼굴 정확도 관련 조건문
+            // else if(score < 0.60) {
+            //     element.innerHTML = "<h5 class='bold' style='color:red'>고개 들어주세요</h5>";
+            // }
+            // else if(score > 0.80) {
+            //     element.innerHTML = "<h5 class='bold' style='color:red'>???</h5>";
+            // }
             else{
                 element.innerHTML = "";
             }

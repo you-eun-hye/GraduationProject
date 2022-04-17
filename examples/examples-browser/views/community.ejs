@@ -75,13 +75,13 @@
     <tbody>
       <% data.forEach(function (value) { %>
         <tr>
-          <td><a href="/cm_board"><%= value.cm_title %></td>
-          <td><%= value.id %></td>
+          <td><a href="/cm_board/<%= value.cm_id %>"><%= value.cm_title %></td>
+          <td><%= value.nickname %></td>
         </tr>
       <% }); %>
     </tbody>
   </table>
   <a style="float: right; padding-right: 30px;" href="/cm_create"><img style="width: 30px;" src="image/pen.png"></a>
-
+  <a style="float: right; padding-right: 30px;" href="/cm_mycommunity">내가 작성한 게시글</a><br>
 </body>
 </html>
