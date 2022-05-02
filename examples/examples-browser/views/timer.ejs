@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.css">
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
-  <title>timer</title>
+  <title>시간 측정</title>
 
   <style>
     .page-container {
@@ -59,14 +59,6 @@
     
     .pad-sides-sm {
       padding: 0 8px !important;
-    }
-    
-    #github-link {
-      display: flex !important;
-      justify-content: center;
-      align-items: center;
-      border-bottom: 1px solid;
-      margin-bottom: 10px;
     }
     
     #overlay, .overlay {
@@ -187,18 +179,21 @@
       </span> -->
       <!-- tiny_face_detector_controls -->
 
-      <div class="timer-box">
-        <div class="timer js-timer">00:00:00</div>
-        <div class="timer-form__Btn">
-          <div class="timerBtn js-timer__startBtn">
-            <i><img style="width: 30px;" src="image/start.png"/></i>
-          </div>
-          <div class="timerBtn js-timer__endBtn">
-            <button style="border: 0; outline: 0; background-color:transparent;;" type="submit" value="timer" ><img style="width: 30px;" src="image/stop.png"/></button>
+
+        <div class="timer-box">
+          <div class="timer js-timer">00:00:00</div>
+          <div class="timer-form__Btn">
+            <div class="timerBtn js-timer__startBtn">
+              <i><img style="width: 30px;" src="image/start.png"/></i>
+            </div>
+            <div class="timerBtn js-timer__endBtn">
+              <button style="border: 0; outline: 0; background-color:transparent;;" type="submit" value="timer" ><img style="width: 30px;" src="image/stop.png"/></button>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+
+      <div><p>프레임안으로 들어오게 자세를 고쳐잡고 타이머를 실행시켜주세요.</p></div>
+      
   </body>
 
   <script>
@@ -208,10 +203,6 @@
     element = document.getElementById('warning');
     let TIME = 0;
     let cron;
-    let start;
-    let end;
-    let studyTime; // 밀리초 단위인 숫자
-    let sumTime = 0;
 
 
     // 타이머 함수
@@ -232,31 +223,17 @@
         updateTimer();
         clearInterval(cron);
         cron = setInterval(updateTimer, 1000); // 매 초당 updateTimer 반복
-        start = new Date(); // 현시각 변수 할당
-        console.log("startFuc_start "+start);
     }
 
     // 시간 정지 함수, 프레임을 벗어났거나 얼굴이 인식안될 때 사용
     function stopButton(){
       clearInterval(cron);
-      end = new Date(); // 현시각 변수 할당
-      studyTime = end - start; // 밀리초 단위의 숫자, 공부시간
-      sumTime += studyTime;
-      console.log("stopFuc_end "+end);
-      console.log("stopFuc_studyTime "+studyTime);
-      console.log("stopFuc_sumTime "+sumTime);
     }
 
-    // 시간 측정 종료 함수, end버튼을 누르면 studyTime 변수가 DB에 저장되고 todo페이지로 넘어가야함
+    // 시간 측정 종료 함수, end버튼을 누르면 time이 DB에 저장되고 todo페이지로 넘어가야함
     function endButton(){
       clearInterval(cron);
-      end = new Date();
-      studyTime = end - start; // 밀리초 단위
-      sumTime += studyTime;
-      location.href = "/todo"
-      console.log("endFuc_end "+end);
-      console.log("endFuc_studyTime "+studyTime);
-      console.log("endFuc_sumTime "+sumTime);
+      window.location.href = "todo?seconds="+TIME;
     }
 
     startBtn.addEventListener('click', startButton);

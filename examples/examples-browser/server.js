@@ -105,19 +105,19 @@ app.get('/logout', (req,res) => {
 });
 
 // timer
-app.get('/timer', function (req,res){
+app.get('/timer/:td_id', function (req,res){
     fs.readFile('./views/timer.ejs', 'utf8', function (err, data){
         res.send(data)
     })
 });
 
-app.post('/timer', function(req,res){
-    const body = req.body;
-    db.query('update todolist SET td_time=? where td_id=? and id=?;', [body.td_time, req.params.td_id, req.session.name],
-    function (){
-        res.redirect('/todo')
-    })
-});
+// app.post('/timer', function(req,res){
+//     const body = req.body;
+//     db.query('update todolist SET td_time=? where td_id=? and id=?;', [body.td_time, req.params.td_id, req.session.name],
+//     function (){
+//         res.redirect('/todo')
+//     })
+// });
 
 // todolist
 app.get('/todo', function(req, res){
@@ -141,7 +141,7 @@ app.get('/td_create', function (req, res){
 
 app.post('/td_create', function (req, res){
     const body = req.body;
-    db.query('insert into todolist (id, td_content, td_time) values (?, ?, 0);', [req.session.name, body.td_content],
+    db.query('insert into todolist (id, td_content, td_seconds, td_date) values (?, ?, 00, now());', [req.session.name, body.td_content],
     function (){
         res.redirect('/todo')
     })

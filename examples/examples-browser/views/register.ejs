@@ -8,12 +8,37 @@
   <title>회원가입</title>
 </head>
 
+<script language="javascript">
+  function selectmajor(){
+    document.frm.major.value = document.frm.selected_major.value;
+  }
+</script>
+
 <body>
-  <form method="post" class="register-form">
+  <form method="post" class="register-form" name="frm">
     <input type="text" name="id" id="id" placeholder="아이디" />
     <input type="text" name="nickname" id="nickname" placeholder="닉네임" />
     <input type="text" name="pwd" id="pwd" placeholder="비밀번호"/>
     <input type="text" name="repwd" id="repwd"  placeholder="비밀번호 확인"><br>
+    <input name="major" type="text" value="<%=major%>">
+      <select name="selected_major" id="selected_major" onchange="selectmajor();">
+        <option value="" selected >직접입력</option>
+        <option value="컴퓨터공학과">컴퓨터공학과</option>
+        <option value="소프트웨어공학과">소프트웨어공학과</option>
+        <option value="건축공학과">건축공학과</option>
+        <option value="도시공학과">도시공학과</option>
+        <option value="보건관리학과">보건관리학과</option>
+        <option value="생명과학과">생명과학과</option>
+        <option value="시각디자인학과">시각디자인학과</option>
+        <option value="산업디자인학과">산업디자인학과</option>
+        <option value="가구디자인학과">가구디자인학과</option>
+        <option value="실내디자인학과">실내디자인학과</option>
+        <option value="경영학과">경영학과</option>
+        <option value="문예창작학과">문예창작학과</option>
+        <option value="사회복지학과">사회복지학과</option>
+        <option value="아동보육학과">아동보육학과</option>
+        <option value="도시행정학과">도시행정학과</option>
+      </select>
     <input type="submit" id="registerBtn" value="회원가입">
   </form>
 </body>
