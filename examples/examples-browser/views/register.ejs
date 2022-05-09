@@ -20,8 +20,8 @@
     <input type="text" name="nickname" id="nickname" placeholder="닉네임" />
     <input type="text" name="pwd" id="pwd" placeholder="비밀번호"/>
     <input type="text" name="repwd" id="repwd"  placeholder="비밀번호 확인"><br>
-    <input name="major" type="text" value="<%=major%>">
-      <select name="selected_major" id="selected_major" onchange="selectmajor();">
+    <input name="major" id="major" class="major" type="text" value="<%=major%>">
+      <select style="color: gray;" name="selected_major" id="selected_major" onchange="selectmajor();">
         <option value="" selected >직접입력</option>
         <option value="컴퓨터공학과">컴퓨터공학과</option>
         <option value="소프트웨어공학과">소프트웨어공학과</option>
@@ -42,4 +42,9 @@
     <input type="submit" id="registerBtn" value="회원가입">
   </form>
 </body>
+
+<script>
+  var major = document.querySelector('.major');
+  major.value = "";
+</script>
 </html>

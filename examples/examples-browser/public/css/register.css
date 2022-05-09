@@ -54,6 +54,24 @@
     margin-bottom: 10px;
   }
 
+  #major{
+    font-size: 14px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  #selected_major{
+    font-size: 14px;
+    width: 80%;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
   #registerBtn {
     font-size: 14px;
     background-color: #095D3D;

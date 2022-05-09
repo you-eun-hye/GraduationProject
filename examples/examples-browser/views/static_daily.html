@@ -16,14 +16,27 @@
 		google.charts.load('current', {'packages':['corechart']});
 		google.charts.setOnLoadCallback(drawVisualization);
 		function drawVisualization() { 
+			var today = new Date();
+			var year = today.getFullYear();
+			var month = today.getMonth()+1;
+			var date = today.getDate();
+	  
+			var date_1 = date-1;
+			var date_2 = date-2;
+			var date_3 = date-3;
+			var date_4 = date-4;
+			var date_5 = date-5;
+			var date_6 = date-6;
 			// 일간
 			var data_Daily = google.visualization.arrayToDataTable([
 					['Today',      '국어',   '수학',      '영어',      '사회',        '과학',     '종합'],
-					['2020.04.10',  165,      938,         522,         998,           450,       614.6],
-					['2020.04.11',  135,      1120,        599,         1268,          288,       682],
-					['2020.04.12',  157,      1167,        587,         807,           397,       623],
-					['2020.04.13',  139,      1110,        615,         968,           215,       609.4],
-					['2020.04.14',  136,      691,         629,         1026,          366,       569.6]
+					[year+'년 '+month+'월 '+date_6+'일',    200,      180,         100,         43,             47,        570],
+					[year+'년 '+month+'월 '+date_5+'일',  180,      300,         60,          57,             65,        662],
+					[year+'년 '+month+'월 '+date_4+'일',  240,      180,         75,          46,             48,        589],
+					[year+'년 '+month+'월 '+date_3+'일',  199,      140,         34,          59,             46,        478],
+					[year+'년 '+month+'월 '+date_2+'일',  142,      120,         60,          64,             53,        439],
+					[year+'년 '+month+'월 '+date_1+'일',  250,      0,           55,          42,             49,        396],
+					['Today: '+year+'년 '+month+'월 '+date+'일',  183,      120,         34,          67,             65,        469]
 				]);
 			var options_Daily = {
 				title : '일간 통계',

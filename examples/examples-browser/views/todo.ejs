@@ -17,13 +17,27 @@
     google.charts.setOnLoadCallback(drawVisualization);
   
     function drawVisualization() { 
+      var today = new Date();
+      var year = today.getFullYear();
+      var month = today.getMonth()+1;
+      var date = today.getDate();
+
+      var date_1 = date-1;
+      var date_2 = date-2;
+      var date_3 = date-3;
+      var date_4 = date-4;
+      var date_5 = date-5;
+      var date_6 = date-6;
+
       var data = google.visualization.arrayToDataTable([
-          ['Today',      '국어',   '수학',      '영어',      '사회',        '과학',    '종합'],
-          ['2020.04.10',  165,      938,         522,         998,           450,       614.6],
-          ['2020.04.11',  135,      1120,        599,         1268,          288,       682],
-          ['2020.04.12',  157,      1167,        587,         807,           397,       623],
-          ['2020.04.13',  139,      1110,        615,         968,           215,       609.4],
-          ['2020.04.14',  136,      691,         629,         1026,          366,       569.6]
+          ['Today',                          '국어',   '수학',      '영어',      '사회',        '과학',   '총합'],
+          [year+'년'+month+'월'+date_6+'일',    200,      180,         100,         43,             47,        570],
+          [year+'년'+month+'월'+date_5+'일',  180,      300,         60,          57,             65,        662],
+          [year+'년'+month+'월'+date_4+'일',  240,      180,         75,          46,             48,        589],
+          [year+'년'+month+'월'+date_3+'일',  199,      140,         34,          59,             46,        478],
+          [year+'년'+month+'월'+date_2+'일',  142,      120,         60,          64,             53,        439],
+          [year+'년'+month+'월'+date_1+'일',  250,      0,           55,          42,             49,        396],
+          ['Today: '+year+'년'+month+'월'+date+'일',  183,      120,         34,          67,             65,        469]
         ]);
       var options = {
           title : '일간 통계',
@@ -103,7 +117,7 @@
         <th scope="row">1</th>
         <td><%= value.td_content %></td>
         <td class="timer">00:00:00</td>
-        <td><a href="/timer/<%= value.td_id %>"><img style="width: 30px;" src="image/timer.png"/></a></td>
+        <td><a href="/timer"><img style="width: 30px;" src="image/timer.png"/></a></td>
         <td><a href="/td_edit/<%= value.td_id %>"><img style="width: 30px;" src="image/pen.png"/></a></td>
         <td><a href="/td_delete/<%= value.td_id %>"><img style="width: 30px;" src="image/delete.png"/></a></td>
       </tr>
@@ -121,15 +135,23 @@
     let val = location.href.substr(
       location.href.lastIndexOf('=') + 1
     );
+
     const hours = Math.floor(val/3600);
     const checkMinutes = Math.floor(val/60);
     const minutes = checkMinutes%60;
     const seconds = val%60;
 
-    timer.innerText = `${hours < 10 ? `0${hours}`:hours}:${
-      minutes < 10 ? `0${minutes}`:minutes}:${
-      seconds < 10 ? `0${seconds}`:seconds}`;
+    if(seconds){
+      timer.innerText = `${hours < 10 ? `0${hours}`:hours}:${
+        minutes < 10 ? `0${minutes}`:minutes}:${
+        seconds < 10 ? `0${seconds}`:seconds}`;
+    }
+    else{
+      timer.innerText = "00:00:00";
+    }
   })
+  window.location.href = "static_daily?seconds="+TIME;
+  console.log(timer.innerText);
 </script>
 
 </html>

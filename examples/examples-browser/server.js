@@ -105,19 +105,19 @@ app.get('/logout', (req,res) => {
 });
 
 // timer
-app.get('/timer/:td_id', function (req,res){
+app.get('/timer', function (req,res){
     fs.readFile('./views/timer.ejs', 'utf8', function (err, data){
         res.send(data)
     })
 });
 
-// app.post('/timer', function(req,res){
-//     const body = req.body;
-//     db.query('update todolist SET td_time=? where td_id=? and id=?;', [body.td_time, req.params.td_id, req.session.name],
-//     function (){
-//         res.redirect('/todo')
-//     })
-// });
+app.post('/timer', function(req,res){
+    const body = req.body;
+    db.query('update todolist SET td_time=? where td_id=? and id=?;', [body.td_time, req.params.td_id, req.session.name],
+    function (){
+        res.redirect('/todo')
+    })
+});
 
 // todolist
 app.get('/todo', function(req, res){
@@ -314,6 +314,13 @@ app.get('/fl_insert/:id', function (req, res){
             res.redirect('/follow')
         })
     }
+});
+
+app.get('/fl_delete/:fl_id', function (req, res){
+    db.query('delete from follow where fl_id=? and id=?', [req.params.fl_id, req.session.name],
+    function (){
+        res.redirect('/follow')
+    })
 });
 
 const viewsDir = path.join(__dirname, 'views')

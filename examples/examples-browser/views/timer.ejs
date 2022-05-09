@@ -83,8 +83,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-top: 125px;
-      padding-left: 250px;
+      margin-top: 10px;
+      padding-left: 150px;
     }
     .timer{
       font-size: 60px;
@@ -141,7 +141,7 @@
     </div>
 
     <div class="center-content">
-      <div id="warning" style="padding-bottom:50px; padding-left: 250px;"></div>
+      <div id="warning" style="padding-bottom:50px; padding-left: 150px;"></div>
 
       <!-- tiny_face_detector_controls -->
       <!-- <span id="tiny_face_detector_controls">
@@ -190,9 +190,8 @@
               <button style="border: 0; outline: 0; background-color:transparent;;" type="submit" value="timer" ><img style="width: 30px;" src="image/stop.png"/></button>
             </div>
           </div>
+          <div><b>프레임 안으로 들어오게 자세를 고쳐잡고 타이머를 실행시켜주세요.</b></div>
         </div>
-
-      <div><p>프레임안으로 들어오게 자세를 고쳐잡고 타이머를 실행시켜주세요.</p></div>
       
   </body>
 
@@ -293,7 +292,6 @@
     // 사각형 보여주고 초기화시키고 다시 사각형 보여주고 하는 함수
     $(document).ready(function() {
       initFaceDetectionControls()
-      startButton()
       run()
     })
   </script>
