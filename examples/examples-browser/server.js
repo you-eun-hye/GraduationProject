@@ -38,6 +38,7 @@ app.post('/register', function (req, res){
     const pwd = body.pwd;
     const repwd = body.repwd;
     const nickname = body.nickname;
+    const major = body.major;
 
     if(!id || !pwd || !nickname){
         res.send(
@@ -54,7 +55,7 @@ app.post('/register', function (req, res){
             </script>`
         );
     } else {
-        db.query('insert into users (id, pwd, nickname) values (?, ?, ?);', [ id, pwd, nickname ],
+        db.query('insert into users (id, pwd, nickname, major) values (?, ?, ?, ?);', [ id, pwd, nickname, major ],
         function (){
             res.redirect('/')
         })
@@ -320,6 +321,19 @@ app.get('/fl_delete/:fl_id', function (req, res){
     db.query('delete from follow where fl_id=? and id=?', [req.params.fl_id, req.session.name],
     function (){
         res.redirect('/follow')
+    })
+});
+
+app.get('/fl_recommend', function(req, res){
+    fs.readFile('./views/fl_recommend.ejs', 'utf8', function (err, data){
+        db.query('select * from users where major= (select major from users where id=?)', [req.session.name],
+        function (err, results){
+            if (err){
+                res.send(err)
+            } else {
+                res.send(ejs.render(data, { data: results }))
+            }
+        })
     })
 });
 

@@ -24,7 +24,10 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
         <!-- home(todo) -->
-        <a class="navbar-brand" href="./todo">PPT</a>
+        <a class="navbar-brand" href="./todo"><img style="width: 50px;" src="image/logo.png"/></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <!-- static -->
@@ -43,14 +46,8 @@
               <a class="nav-link active" aria-current="page" href="./community">게시판</a>
             </li>
             <!-- 팔로우 -->
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                팔로우
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="./follow">팔로워</a></li>
-                <li><a class="dropdown-item" href="./fl_list">추천 사용자</a></li>
-              </ul>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="./follow">팔로우</a>
             </li>
             <!-- 로그아웃 -->
             <li class="nav-item">
@@ -78,5 +75,15 @@
     </tbody>
   </table>
   <a style="float: right; padding-right: 30px;" href="/community">커뮤니티</a><br>
+
+  <!-- footer -->
+  <footer style="color: white; background-color: #095D3D; padding: 15px; position : absolute; bottom : 0; width: 100%;">
+    <div>
+      <small>협성대학교 16조 졸업작품.</small>
+      <a style="float: right;"  href="https://github.com/you-eun-hye/GraduationProject">
+        <img style="width: 30px;" src="image/github.png"/>
+      </a>
+    </div>
+  </footer>
 </body>
 </html>

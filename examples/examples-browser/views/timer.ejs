@@ -17,12 +17,6 @@
       padding-left: 100px;
       display: inline-flex !important;
     }
-
-    #navbar {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-    }
     
     .center-content {
       display: flex;
@@ -138,60 +132,33 @@
     <div style="position: relative" class="margin">
       <video onloadedmetadata="onPlay(this)" id="inputVideo" autoplay muted playsinline></video>
       <canvas id="overlay" />
+  </div>
+
+  <div class="center-content">
+    <div id="warning" style="padding-bottom:50px; padding-left: 150px;"></div>
+    <div class="timer-box">
+      <div class="timer js-timer">00:00:00</div>
+      <div class="timer-form__Btn">
+        <div class="timerBtn js-timer__startBtn">
+          <i><img style="width: 30px;" src="image/start.png"/></i>
+        </div>
+        <div class="timerBtn js-timer__endBtn">
+          <button style="border: 0; outline: 0; background-color:transparent;;" type="submit" value="timer" ><img style="width: 30px;" src="image/stop.png"/></button>
+        </div>
+      </div>
+      <div><b>프레임 안으로 들어오게 자세를 고쳐잡고 타이머를 실행시켜주세요.</b></div>
     </div>
+  </div>
 
-    <div class="center-content">
-      <div id="warning" style="padding-bottom:50px; padding-left: 150px;"></div>
-
-      <!-- tiny_face_detector_controls -->
-      <!-- <span id="tiny_face_detector_controls">
-        <div class="row side-by-side">
-          <div class="row input-field" style="margin-right: 20px;">
-            <select id="inputSize">
-              <option value="" disabled selected>Input Size:</option>
-              <option value="128">128 x 128</option>
-              <option value="160">160 x 160</option>
-              <option value="224">224 x 224</option>
-              <option value="320">320 x 320</option>
-              <option value="416">416 x 416</option>
-              <option value="512">512 x 512</option>
-              <option value="608">608 x 608</option>
-            </select>
-            <label>Input Size</label>
-          </div>
-          <div class="row">
-            <label for="scoreThreshold">Score Threshold:</label>
-            <input disabled value="0.5" id="scoreThreshold" type="text" class="bold">
-          </div>
-          <button
-            class="waves-effect waves-light btn"
-            onclick="onDecreaseScoreThreshold()"
-          >
-            <i class="material-icons left">-</i>
-          </button>
-          <button
-            class="waves-effect waves-light btn"
-            onclick="onIncreaseScoreThreshold()"
-          >
-            <i class="material-icons left">+</i>
-          </button>
-        </div>
-      </span> -->
-      <!-- tiny_face_detector_controls -->
-
-
-        <div class="timer-box">
-          <div class="timer js-timer">00:00:00</div>
-          <div class="timer-form__Btn">
-            <div class="timerBtn js-timer__startBtn">
-              <i><img style="width: 30px;" src="image/start.png"/></i>
-            </div>
-            <div class="timerBtn js-timer__endBtn">
-              <button style="border: 0; outline: 0; background-color:transparent;;" type="submit" value="timer" ><img style="width: 30px;" src="image/stop.png"/></button>
-            </div>
-          </div>
-          <div><b>프레임 안으로 들어오게 자세를 고쳐잡고 타이머를 실행시켜주세요.</b></div>
-        </div>
+  <!-- footer -->
+  <footer style="color: white; background-color: #095D3D; padding: 15px; position : absolute; bottom : 0; right: 0px; width: 100%;">
+    <div>
+      <small>협성대학교 16조 졸업작품.</small>
+      <a style="float: right;"  href="https://github.com/you-eun-hye/GraduationProject">
+        <img style="width: 30px;" src="image/github.png"/>
+      </a>
+    </div>
+  </footer>
       
   </body>
 
@@ -200,6 +167,7 @@
     startBtn = document.querySelector('.js-timer__startBtn'),
     endBtn = document.querySelector('.js-timer__endBtn'),
     element = document.getElementById('warning');
+    //second = document.querySelector('.second');
     let TIME = 0;
     let cron;
 
@@ -237,6 +205,7 @@
 
     startBtn.addEventListener('click', startButton);
     endBtn.addEventListener('click', endButton);
+    //second.innerHTML("<p>TIME</p>");
 
 
     let forwardTimes = []

@@ -5,65 +5,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-   <!-- Bootstrap CSS -->
-   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-   <!-- Option 1: Bootstrap Bundle with Popper -->
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-  
-  <title>게시글 작성</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <!-- Option 1: Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+  <title>같은 전공 사용자 추천</title>
+  <style>
+    a{
+      text-decoration: none;
+      color: black;
+    }
+  </style>
 </head>
-
-<style>
-  * {
-    box-sizing: border-box;
-    font-family: 'Noto Sans KR', sans-serif;
-  }
-
-  body {
-    margin: 0;
-    background-color: white;
-  }
-
-  .create-form {
-    width: 900px;
-    background-color: #EEEFF1;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 50px;
-    border-radius: 5px;
-    padding: 20px;
-  }
-
-  #cm_content {
-    font-size: 14px;
-    width: 100%;
-    height: 400px;
-    border: none;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-  }
-
-  #cm_title {
-    font-size: 14px;
-    width: 100%;
-    border: none;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-  }
-
-  #submit-btn {
-    font-size: 14px;
-    background-color: #095D3D;
-    color: white;
-    width: 100%;
-    border-radius: 5px;
-    padding: 10px;
-    border: none;
-    text-align: center;
-  }
-</style>
 
 <body>
   <!-- navbar -->
@@ -104,11 +58,26 @@
     </div>
   </nav>
 
-  <form class="create-form" method="post">
-    <input type="text" name="cm_title" id="cm_title" placeholder="제목" />
-    <input type="text" name="cm_content" id="cm_content" placeholder="내용" />
-    <input type="submit" id="submit-btn" value="작성">
-  </form>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">닉네임</th>
+        <th scope="col">전공</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% data.forEach(function (value) { %>
+        <tr>
+          <td><%= value.nickname %></td>
+          <td><%= value.major %></td>
+          <td><a href="/fl_insert/<%= value.id %>"><img style="width: 30px;" src="image/click.png"/></a></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+  <a style="float: right; padding-right: 30px;" href="/fl_list">전체사용자</a>
+  <a style="float: right; padding-right: 30px;" href="/follow">팔로워</a><br>
+
 
   <!-- footer -->
   <footer style="color: white; background-color: #095D3D; padding: 15px; position : absolute; bottom : 0; width: 100%;">
@@ -120,4 +89,5 @@
     </div>
   </footer>
 </body>
+
 </html>
