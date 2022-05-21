@@ -112,13 +112,14 @@ app.get('/timer', function (req,res){
     })
 });
 
-app.post('/timer', function(req,res){
-    const body = req.body;
-    db.query('update todolist SET td_time=? where td_id=? and id=?;', [body.td_time, req.params.td_id, req.session.name],
-    function (){
-        res.redirect('/todo')
-    })
-});
+// app.post('/timer', function(req,res){
+//     const body = req.body;
+//     console.log(body.td_seconds);
+//     db.query('update todolist SET td_seconds=? where td_id=? and id=?;', [body.td_seconds, req.params.td_id, req.session.name],
+//     function (){
+//         res.redirect('/todo')
+//     })
+// });
 
 // todolist
 app.get('/todo', function(req, res){
@@ -334,6 +335,27 @@ app.get('/fl_recommend', function(req, res){
                 res.send(ejs.render(data, { data: results }))
             }
         })
+    })
+});
+
+// 마이페이지
+app.get('/mypage', function (req, res){
+    fs.readFile('./views/mypage.ejs', 'utf8', function (err, data){
+        res.send(data)
+    })
+});
+
+// 회원탈퇴
+app.get('/secession', function (req, res){
+    fs.readFile('./views/secession.ejs', 'utf8', function (err, data){
+        res.send(data)
+    })
+});
+
+app.get('/secession_yes', function (req, res){
+    db.query('delete from users where id=?', [req.session.name],
+    function (){
+        res.redirect('/')
     })
 });
 

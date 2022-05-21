@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>월간 통계</title>
+    
     <!-- Bootstrap CSS -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<!-- Option 1: Bootstrap Bundle with Popper -->
@@ -18,11 +19,11 @@
 			// 월간
 			var data_Monthly = google.visualization.arrayToDataTable([
 					['Month',      '국어',   '수학',      '영어',      '사회',        '과학',     '종합'],
-					['2020.04',     165,      938,         522,         998,           450,       3073],
-					['2020.05',     135,      1120,        599,         1268,          288,       3410],
-					['2020.06',     157,      1167,        587,         807,           397,       3115],
-					['2020.07',     139,      1110,        615,         968,           215,       3047],
-					['2020.08',     136,      691,         629,         1026,          366,       2848]
+					['2020.01',     165,      938,         522,         998,           450,       3073],
+					['2020.02',     135,      1120,        599,         1268,          288,       3410],
+					['2020.03',     157,      1167,        587,         807,           397,       3115],
+					['2020.04',     139,      1110,        615,         968,           215,       3047],
+					['2020.05',     136,      691,         629,         1026,          366,       2848]
 				]);
 			var options_Monthly = {
 				title : '월간 통계',
@@ -41,53 +42,69 @@
 </head>
 <body>
     <!-- navbar -->
-	  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<div class="container-fluid">
-			<!-- home(todo) -->
-		  <a class="navbar-brand" href="./todo"><img style="width: 50px;" src="image/logo.png"/></a>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <!-- home(todo) -->
+      <a class="navbar-brand" href="/todo"><img style="width: 50px;" src="/image/logo.png"/></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-		  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-			  <!-- static -->
-			  <li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-				  통계
-				</a>
-				<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-					<li><a class="dropdown-item" href="./static_daily.html">일간</a></li>
-					<li><a class="dropdown-item" href="./static_monthly.html">월간</a></li>
-					<li><a class="dropdown-item" href="./static_yearly.html">연간</a></li>
-				</ul>
-			  </li>
-			  <!-- 게시판 -->
-			  <li class="nav-item">
-				<a class="nav-link active" aria-current="page" href="./community">게시판</a>
-			  </li>
-			  <!-- 팔로우 -->
-			  <li class="nav-item">
-				<a class="nav-link active" aria-current="page" href="./follow">팔로우</a>
-			  </li>
-			  <!-- 로그아웃 -->
-			  <li class="nav-item">
-				<a class="nav-link active" aria-current="page" href="/logout" style="color: red;" >로그아웃</a>
-			  </li>
-			</ul>
-		  </div>
-		</div>
-	  </nav>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <!-- static -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              통계
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="./static_daily.html">일간</a></li>
+              <li><a class="dropdown-item" href="./static_monthly.html">월간</a></li>
+              <li><a class="dropdown-item" href="./static_yearly.html">연간</a></li>
+            </ul>
+          </li>
+          <!-- 게시판 -->
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/community">게시판</a>
+          </li>
+          <!-- 팔로우 -->
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/follow">팔로우</a>
+          </li>
+          <!-- 마이페이지 -->
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/mypage">마이페이지</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
       <div id="chart_Monthly" style="height: 500px;"></div>
 
-  <!-- footer -->
-  <footer style="color: white; background-color: #095D3D; padding: 15px; position : absolute; bottom : 0; width: 100%;">
-    <div>
-      <small>협성대학교 16조 졸업작품.</small>
-      <a style="float: right;"  href="https://github.com/you-eun-hye/GraduationProject">
-        <img style="width: 30px;" src="image/github.png"/>
-      </a>
+ <!-- footer -->
+ <footer style="color: white; background-color: #095D3D; padding: 15px; position : absolute; bottom : 0; width: 100%;">
+  <div>
+    <small style="float: left; margin-top: 20px;">협성대학교 16조 졸업작품.</small>
+    <div style="text-align: center; float: left; width: 33%; margin-left: 330px;">
+      <b>[오늘의 명언]</b>
+      <p class="msg"></p>
     </div>
-  </footer>
+    <a style="float: right; margin-top: 20px;"  href="https://github.com/you-eun-hye/GraduationProject">
+      <img style="width: 30px;" src="/image/github.png"/>
+    </a>
+  </div>
+</footer>
 </body>
+
+<script>
+  const msg = document.querySelector('.msg');
+  var day_msg = new Array(5);
+  day_msg[0] = "너 자신을 알라. -소크라테스-";
+  day_msg[1] = "인생의 위대한 목표는 지식이 아니라 행동이다. -헉슬리-";
+  day_msg[2] = "삶은 호흡하는 것이 아니라 행위를 하는 것이다. -루소-";
+  day_msg[3] = "우리의 인생은 우리가 노력한 만큼 가치가 있다. -모리약-";
+  day_msg[4] = "사랑하며 가난한 것이 애정없는 부유함보다 훨씬 낫다. -모리스-";
+  var random_num = Math.floor(Math.random()*5);
+  msg.innerText = (day_msg[random_num]);
+</script>
 </html>

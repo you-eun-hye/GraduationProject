@@ -142,8 +142,9 @@
         <div class="timerBtn js-timer__startBtn">
           <i><img style="width: 30px;" src="image/start.png"/></i>
         </div>
+        <!-- 타이머 멈추는 버튼 -->
         <div class="timerBtn js-timer__endBtn">
-          <button style="border: 0; outline: 0; background-color:transparent;;" type="submit" value="timer" ><img style="width: 30px;" src="image/stop.png"/></button>
+          <button style="border: 0; outline: 0; background-color:transparent;" type="submit" value="timer" ><img style="width: 30px;" src="image/stop.png"/></button>
         </div>
       </div>
       <div><b>프레임 안으로 들어오게 자세를 고쳐잡고 타이머를 실행시켜주세요.</b></div>
@@ -167,7 +168,6 @@
     startBtn = document.querySelector('.js-timer__startBtn'),
     endBtn = document.querySelector('.js-timer__endBtn'),
     element = document.getElementById('warning');
-    //second = document.querySelector('.second');
     let TIME = 0;
     let cron;
 
@@ -197,7 +197,7 @@
       clearInterval(cron);
     }
 
-    // 시간 측정 종료 함수, end버튼을 누르면 time이 DB에 저장되고 todo페이지로 넘어가야함
+    // 타이머 멈추는 버튼에 적용되는 함수
     function endButton(){
       clearInterval(cron);
       window.location.href = "todo?seconds="+TIME;
@@ -205,7 +205,6 @@
 
     startBtn.addEventListener('click', startButton);
     endBtn.addEventListener('click', endButton);
-    //second.innerHTML("<p>TIME</p>");
 
 
     let forwardTimes = []
