@@ -34,10 +34,21 @@
     padding: 20px;
   }
 
+  #cm_title{
+    font-size: 14px;
+      width: 100%;
+      border: none;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 10px;
+      color: gray;
+    }
+
+
   #cm_content {
     font-size: 14px;
     width: 100%;
-    height: 400px;
+    height: 350px;
     border: none;
     border-radius: 5px;
     padding: 10px;
@@ -97,7 +108,8 @@
   </nav>
 
   <form class="edit-form" method="post">
-    <input type="text" name="cm_content" id="cm_content" value="<%= data.cm_content %>" /></td>
+    <input type="text" name="cm_title" id="cm_title" value="<%= data.cm_title %>" />
+    <input type="text" name="cm_content" id="cm_content" value="<%= data.cm_content %>" />
     <input type="submit" id="submit-btn" value="수정" />
   </form>
 

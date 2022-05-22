@@ -59,32 +59,24 @@
   </nav>
 
   <!-- 게시판 -->
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col"></th>
-        <th scope="col">제목</th>
-        <th scope="col">내용</th>
-        <th scope="col">수정</th>
-        <th scope="col">삭제</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% data.forEach(function (value) { %>
-        <tr>
-          <th scope="row">1</th>
-          <td><%= value.cm_title %></td>
-          <td><%= value.cm_content %></td>
-          <td><a href="/cm_edit/<%= value.cm_id %>">
+  <% data.forEach(function (value) { %>
+    <div style="margin-left: 70px; margin-right: 70px; border-radius: 5px; padding-bottom: 300px; background-color: #EEEFF1;">
+      <div style="margin-top: 40px; height: 20px;"></div>
+      <div>
+        <h3 style="background-color: white; border-radius: 5px; margin: 10px; padding: 10px; clear:both; float:left;"><%= value.cm_title %></h3>
+        <div style="float: right; padding: 10px;">
+          <a style="margin-right: 20px; background-color: #095D3D; color: white; border-radius: 5px; padding: 5px;" href="/cm_edit/<%= value.cm_id %>">
             수정
-          </a></td>
-          <td><a href="/cm_delete/<%= value.cm_id %>">
+          </a>
+          <a style="background-color: #095D3D; color: white; border-radius: 5px; padding: 5px;" href="/cm_delete/<%= value.cm_id %>">
             삭제
-          </a></td>
-        </tr>
-      <% }); %>
-    </tbody>
-  </table>
+          </a> 
+        </div>
+      </div>
+      <p style="background-color: white; border-radius: 5px; margin: 10px; padding: 10px; clear:both; float:left;"><img style="width: 20px;" src="/image/person.png"/><%= value.id %></p>
+      <p style="background-color: white; border-radius: 5px; margin: 10px; padding: 10px; clear:both; float:left;"><%= value.cm_content %></p>
+    </div>
+  <% }); %>
 
   <!-- footer -->
   <footer style="color: white; background-color: #095D3D; padding: 15px; position : absolute; bottom : 0; width: 100%;">
