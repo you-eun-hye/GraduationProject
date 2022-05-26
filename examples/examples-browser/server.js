@@ -25,6 +25,33 @@ app.use(session({
 const db = require("./database/db.js");
 const fs = require("fs");
 
+const axios = require("axios");
+  const cheerio = require("cheerio");
+
+  const getHTML = async(search) => {
+      try{
+          return await axios.get("https://www.google.com/search?"+ encodeURI(search))
+      }catch(err){
+          console.log(err);
+      }
+  }
+
+  const parsing = async(search) => {
+      const html = await getHTML(search);
+      const $ = cheerio.load(html.data);
+      const $courseList = $("#search");
+
+      let courses = [];
+      $courseList.each((idx, node) => {
+          courses.push({
+              title: $(node).find(h3).text(),
+          })
+      });
+      console.log(courses);
+  }
+
+  parsing("q");
+
 // register
 app.get('/register', function (req, res){
     fs.readFile('./views/register.ejs', 'utf8', function (err, data){

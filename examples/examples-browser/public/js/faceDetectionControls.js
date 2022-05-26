@@ -6,7 +6,7 @@ let selectedFaceDetector = SSD_MOBILENETV1
 
 // tiny_face_detector options
 let inputSize = 512 // 얼굴 인식 프레임 사이즈(파란색 네모)
-let scoreThreshold = 0.5 // 점수 임계값, 커질수록 반응이 느려지는 대신 멀리있는 얼굴도 인식(?)
+let scoreThreshold = 0.1 // 점수 임계값, 커질수록 반응이 느려지는 대신 멀리있는 얼굴도 인식(?)
 
 // 선택한 옵션별 필요한 변수
 function getFaceDetectorOptions() {
